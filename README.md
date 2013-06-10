@@ -1,4 +1,7 @@
-proydawii
-=========
+﻿Proyecto de DAW 2 - CIBERTEC
 
-Proyecto para DAW-2
+=============================
+
+
+
+Sistema de Cadena de Comidas Rápidas.
