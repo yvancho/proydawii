@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE editors SYSTEM "dtds/editors.dtd">
+
+<editor url="editorRuc.jsp">
+	<for-stereotype stereotype="RUC" />
+</editor>

@@ -8,7 +8,7 @@ import org.openxava.annotations.*;
 public class Direccion {
 
 	@Required
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Distrito distrito;
 	

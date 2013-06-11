@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE default-size SYSTEM "dtds/default-size.dtd">
+
+<default-size>
+	<for-stereotype name="RUC" size="11" />
+</default-size>
