@@ -12,7 +12,7 @@ public class Direccion {
 	@DescriptionsList
 	private Distrito distrito;
 	
-	@Column(length=50)
+	@Column(length=50, nullable=false)
 	private String calle;
 
 	public String getCalle() {

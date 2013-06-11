@@ -21,9 +21,14 @@ public class Empresa extends Identificable {
 	@Required
 	private String ruc;
 	
-	@Embedded
-	private Direccion domiciliofiscal;
-	
+	@Required
+	@ManyToOne(fetch = FetchType.LAZY)
+	@DescriptionsList
+	private Distrito distrito;
+
+	@Column(length=50)
+	private String calle;
+
 	@Stereotype("TELEPHONE")
 	private String telefono;
 	
@@ -64,14 +69,6 @@ public class Empresa extends Identificable {
 
 	public void setRuc(String ruc) {
 		this.ruc = ruc;
-	}
-
-	public Direccion getDomiciliofiscal() {
-		return domiciliofiscal;
-	}
-
-	public void setDomiciliofiscal(Direccion domiciliofiscal) {
-		this.domiciliofiscal = domiciliofiscal;
 	}
 
 	public String getTelefono() {
@@ -120,6 +117,22 @@ public class Empresa extends Identificable {
 
 	public void setTienda(Collection<Tienda> tienda) {
 		this.tienda = tienda;
+	}
+
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public Distrito getDistrito() {
+		return distrito;
+	}
+
+	public void setDistrito(Distrito distrito) {
+		this.distrito = distrito;
 	}
 
 	

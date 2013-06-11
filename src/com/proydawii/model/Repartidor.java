@@ -5,21 +5,23 @@ import javax.persistence.*;
 import org.openxava.annotations.*;
 
 @Entity
-public class Repartidor extends Identificable{
+public class Repartidor extends Identificable {
 
 	@Column(length = 8, unique = true)
 	@Required
 	private String dni;
+
 	@Column(length = 50, nullable = false)
 	@Required
 	private String nombre;
+
 	@Column(length = 50, nullable = false)
 	@Required
 	private String apellido;
-	@Embedded
-	private Direccion direccion;
+
 	@Stereotype("EMAIL")
 	private String email;
+
 	@Stereotype("TELEPHONE")
 	private String telefono;
 
@@ -58,14 +60,6 @@ public class Repartidor extends Identificable{
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
 	}
 
 	public String getEmail() {

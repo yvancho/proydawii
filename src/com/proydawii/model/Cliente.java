@@ -7,7 +7,7 @@ import org.openxava.annotations.*;
 @Entity
 public class Cliente extends Identificable {
 
-	@Column(length = 8, unique = true)
+	@Column(length = 8, unique = true, nullable=false)
 	@Required
 	private String dni;
 	@Column(length = 50, nullable = false)
@@ -19,8 +19,11 @@ public class Cliente extends Identificable {
 	@Embedded
 	@NoFrame
 	private Direccion direccion;
+		
 	@Stereotype("EMAIL")
+	@Column(nullable=false)
 	private String email;
+	
 	@Stereotype("TELEPHONE")
 	private String telefono;
 
