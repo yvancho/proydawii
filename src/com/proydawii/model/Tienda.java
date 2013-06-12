@@ -21,7 +21,7 @@ public class Tienda extends Identificable {
 	@DescriptionsList
 	private Distrito distrito;
 
-	@Column(length=100,nullable=false)
+	@Column(length=50,nullable=false)
 	private String calle;
 
 	@Column(length=50,nullable=false)
@@ -33,7 +33,7 @@ public class Tienda extends Identificable {
 
 	//bi-directional many-to-one association to Repartidor
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
-	private Collection<Repartidor> repartidors = new ArrayList<Repartidor>();
+	private Collection<Repartidor> repartidores = new ArrayList<Repartidor>();
 
 	//bi-directional many-to-one association to Pedido
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
@@ -51,12 +51,12 @@ public class Tienda extends Identificable {
 		this.productotiendas = productotiendas;
 	}
 
-	public Collection<Repartidor> getRepartidors() {
-		return repartidors;
+	public Collection<Repartidor> getRepartidores() {
+		return repartidores;
 	}
 
-	public void setRepartidors(Collection<Repartidor> repartidors) {
-		this.repartidors = repartidors;
+	public void setRepartidores(Collection<Repartidor> repartidores) {
+		this.repartidores = repartidores;
 	}
 
 	public Collection<Pedido> getPedidos() {

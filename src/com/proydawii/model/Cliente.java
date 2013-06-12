@@ -25,6 +25,10 @@ public class Cliente extends Identificable {
 	private String apellido;
 
 	@Required
+	@NoFrame @Embedded
+	private Direccion direccion;
+
+	@Required
 	@Column(nullable=false,length=50,unique=true)
 	@Stereotype("EMAIL")
 	private String email;
@@ -39,10 +43,17 @@ public class Cliente extends Identificable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@DescriptionsList
 	private Tipocliente tipocliente;
+	
+	@Stereotype("PHOTOGRAPH")
+	private byte[] foto;
 
-	@Required
-	@NoFrame @Embedded
-	private Direccion direccion;	
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
 
 	public String getApellido() {
 		return this.apellido;

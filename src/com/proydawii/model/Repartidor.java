@@ -4,15 +4,14 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
-
 /**
  * The persistent class for the repartidor database table.
  * 
  */
 @Entity
-public class Repartidor extends Identificable{
-	
-	@Column(length=8,unique=true)
+public class Repartidor extends Identificable {
+
+	@Column(length = 8, unique = true)
 	private String dni;
 
 	private String nombre;
@@ -25,9 +24,21 @@ public class Repartidor extends Identificable{
 	@Stereotype("TELEPHONE")
 	private String telefono;
 
-	//bi-directional many-to-one association to Tienda
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Tienda
+	@ManyToOne(fetch = FetchType.LAZY)
+	@DescriptionsList
 	private Tienda tienda;
+
+	@Stereotype("PHOTOGRAPH")
+	private byte[] foto;
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
 
 	public String getApellido() {
 		return this.apellido;

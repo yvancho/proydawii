@@ -2,10 +2,6 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import org.openxava.annotations.*;
-
-import java.util.*;
-
 /**
  * The persistent class for the categoriaproducto database table.
  * 
@@ -13,6 +9,7 @@ import java.util.*;
 @Entity
 public class Categoriaproducto extends Identificable {
 
+	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
 
 	// bi-directional many-to-one association to Productotienda

@@ -6,24 +6,22 @@ import org.openxava.annotations.*;
 
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the detallepedido database table.
  * 
  */
 @Entity
 public class Detallepedido extends Identificable {
-	
 
-	private int cantidad;
+	private String producto;
 
 	@Stereotype("DINERO")
 	private BigDecimal preciounitario;
 
-	private String producto;
+	private int cantidad;
 
-	//bi-directional many-to-one association to Pedido
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Pedido
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Pedido pedido;
 
 	public int getCantidad() {
@@ -35,19 +33,14 @@ public class Detallepedido extends Identificable {
 	}
 
 	public BigDecimal getPreciounitario() {
+		if (this.preciounitario == null) {
+			return BigDecimal.ZERO;
+		}
 		return this.preciounitario;
 	}
 
 	public void setPreciounitario(BigDecimal preciounitario) {
 		this.preciounitario = preciounitario;
-	}
-
-	public String getProducto() {
-		return this.producto;
-	}
-
-	public void setProducto(String producto) {
-		this.producto = producto;
 	}
 
 	public Pedido getPedido() {
@@ -56,6 +49,14 @@ public class Detallepedido extends Identificable {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public String getProducto() {
+		return producto;
+	}
+
+	public void setProducto(String producto) {
+		this.producto = producto;
 	}
 
 }

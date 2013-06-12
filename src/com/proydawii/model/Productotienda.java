@@ -12,7 +12,7 @@ public class Productotienda extends Identificable {
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
 
-	@Stereotype("PHOTO")
+	@Stereotype("PHOTOGRAPH")
 	private byte[] foto;
 
 	private String masFotos;

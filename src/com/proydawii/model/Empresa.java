@@ -23,9 +23,6 @@ public class Empresa extends Identificable {
 	@Column(length=11,nullable=false,unique=true)
 	private String ruc;
 
-	@Stereotype("MEMO")
-	private String comentarios;
-
 	private String direccion;
 
 	@Stereotype("EMAIL")
@@ -40,8 +37,11 @@ public class Empresa extends Identificable {
 	@Stereotype("WEBURL")
 	private String weburl;
 
+	@Stereotype("MEMO")
+	private String comentarios;
+
 	//bi-directional many-to-one association to Tienda
-	@OneToMany(mappedBy="empresa")
+	@OneToMany(mappedBy="empresa", cascade=CascadeType.ALL)
 	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
 
 	public byte[] getFoto() {

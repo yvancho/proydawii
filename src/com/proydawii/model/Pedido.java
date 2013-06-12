@@ -12,8 +12,11 @@ import java.util.*;
  * 
  */
 @Entity
-public class Pedido extends Identificable {
+public class Pedido {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
 	
 	@Stereotype("DATETIME")
 	private Date fechahoraentrada;
@@ -21,20 +24,30 @@ public class Pedido extends Identificable {
 	@Stereotype("DATETIME")
 	private Date fechahorasalida;
 
-	@Stereotype("TEXTO_GRANDE")
-	private String observaciones;
+	//bi-directional many-to-one association to Tienda
+	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
+	private Tienda tienda;
 
 	//bi-directional many-to-one association to Detallepedido
 	@OneToMany(mappedBy="pedido")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 
-	//bi-directional many-to-one association to Tienda
-	@ManyToOne(fetch=FetchType.LAZY)
-	private Tienda tienda;
+	@Stereotype("TEXTO_GRANDE")
+	private String observaciones;
 
 	//bi-directional many-to-one association to Estadoregistropedido
 	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
 	private Estadoregistropedido estadoregistropedido;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Collection<Detallepedido> getDetallepedidos() {
 		return detallepedidos;

@@ -2,8 +2,6 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import java.util.*;
-
 
 /**
  * The persistent class for the estadoregistropedido database table.
@@ -12,10 +10,11 @@ import java.util.*;
 @Entity
 public class Estadoregistropedido extends Identificable{
 	
+	@Column(length=20,nullable=false,unique=true)
 	private String descripcion;
 
 	//bi-directional many-to-one association to Pedido
-	@OneToMany(mappedBy="estadoregistropedido")
+	/*@OneToMany(mappedBy="estadoregistropedido")
 	private Collection<Pedido> pedidos = new ArrayList<Pedido>();
 
 	public Collection<Pedido> getPedidos() {
@@ -24,7 +23,7 @@ public class Estadoregistropedido extends Identificable{
 
 	public void setPedidos(Collection<Pedido> pedidos) {
 		this.pedidos = pedidos;
-	}
+	}*/
 
 	public String getDescripcion() {
 		return this.descripcion;
