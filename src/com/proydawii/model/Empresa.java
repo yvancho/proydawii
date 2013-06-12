@@ -14,6 +14,14 @@ import java.util.*;
 @Entity
 public class Empresa extends Identificable {
 	
+	@Column(length=50,nullable=false,unique=true)
+	private String nombre;
+
+	@Column(length=50,nullable=false,unique=true)
+	private String nombrecomercial;
+
+	@Column(length=11,nullable=false,unique=true)
+	private String ruc;
 
 	@Stereotype("MEMO")
 	private String comentarios;
@@ -23,15 +31,8 @@ public class Empresa extends Identificable {
 	@Stereotype("EMAIL")
 	private String email;
 
-	private String nombre;
-
-	private String nombrecomercial;
-
 	@Stereotype("PHOTO")
 	private byte[] foto;
-
-	@Column(length=11)
-	private String ruc;
 
 	@Stereotype("TELEPHONE")
 	private String telefono;

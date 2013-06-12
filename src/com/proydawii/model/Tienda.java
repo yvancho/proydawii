@@ -1,6 +1,7 @@
 package com.proydawii.model;
 
 import javax.persistence.*;
+import org.openxava.annotations.*;
 
 import java.util.*;
 
@@ -11,26 +12,31 @@ import java.util.*;
  */
 @Entity
 public class Tienda extends Identificable {
+	
+	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
 
 	//bi-directional many-to-one association to Distrito
 	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
 	private Distrito distrito;
 
+	@Column(length=100,nullable=false)
 	private String calle;
 
+	@Column(length=50,nullable=false)
 	private String telefono;
 
 	//bi-directional many-to-one association to Productotienda
-	@OneToMany(mappedBy="tienda")
+	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
 	private Collection<Productotienda> productotiendas = new ArrayList<Productotienda>();
 
 	//bi-directional many-to-one association to Repartidor
-	@OneToMany(mappedBy="tienda")
+	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
 	private Collection<Repartidor> repartidors = new ArrayList<Repartidor>();
 
 	//bi-directional many-to-one association to Pedido
-	@OneToMany(mappedBy="tienda")
+	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
 	private Collection<Pedido> pedidos=new ArrayList<Pedido>();
 
 	//bi-directional many-to-one association to Empresa

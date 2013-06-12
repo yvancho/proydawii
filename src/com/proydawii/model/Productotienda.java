@@ -6,15 +6,10 @@ import org.openxava.annotations.*;
 
 import java.math.BigDecimal;
 
-
-/**
- * The persistent class for the productotienda database table.
- * 
- */
 @Entity
 public class Productotienda extends Identificable {
 	
-
+	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
 
 	@Stereotype("PHOTO")
@@ -22,16 +17,20 @@ public class Productotienda extends Identificable {
 
 	private String masFotos;
 
+	@Stereotype("MEMO")
 	private String observaciones;
 
+	@Stereotype("MONEY")
 	private BigDecimal precio;
 
 	//bi-directional many-to-one association to Categoriaproducto
 	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
 	private Categoriaproducto categoriaproducto;
 
 	//bi-directional many-to-one association to Tienda
 	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
 	private Tienda tienda;	
 
 	public byte[] getFoto() {

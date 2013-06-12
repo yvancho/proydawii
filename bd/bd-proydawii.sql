@@ -1,222 +1,152 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+--<ScriptOptions statementTerminator=";"/>
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`categoriaproducto` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `descripcion` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE estadoregistropedido (
+	id INT NOT NULL,
+	descripcion VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`cliente` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `apellido` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `calle` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `dni` VARCHAR(8) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `email` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `nombre` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `telefono` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `tipocliente_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `dni` (`dni` ASC) ,
-  INDEX `fk_cliente_tipocliente1_idx` (`tipocliente_id` ASC) ,
-  CONSTRAINT `fk_cliente_tipocliente1`
-    FOREIGN KEY (`tipocliente_id` )
-    REFERENCES `proydawii`.`tipocliente` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE tienda (
+	id INT NOT NULL,
+	calle VARCHAR(255),
+	descripcion VARCHAR(255),
+	telefono VARCHAR(255),
+	distrito_id INT,
+	empresa_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`distrito` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `descripcion` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `direccion_iddireccion` INT(11) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `descripcion` (`descripcion` ASC) ,
-  INDEX `fk_distrito_direccion1_idx` (`direccion_iddireccion` ASC) ,
-  CONSTRAINT `fk_distrito_direccion1`
-    FOREIGN KEY (`direccion_iddireccion` )
-    REFERENCES `proydawii`.`direccion` (`iddireccion` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE tipocliente (
+	id INT NOT NULL,
+	descripcion VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`empresa` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `nombre` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `nombrecomercial` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `ruc` VARCHAR(11) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `Direccion` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `telefono` VARCHAR(15) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `email` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `photo` LONGBLOB NULL DEFAULT NULL ,
-  `weburl` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT NULL ,
-  `comentarios` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `nombre` (`nombre` ASC) ,
-  UNIQUE INDEX `nombrecomercial` (`nombrecomercial` ASC) ,
-  UNIQUE INDEX `ruc` (`ruc` ASC) ,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE empresa (
+	id INT NOT NULL,
+	comentarios VARCHAR(255),
+	direccion VARCHAR(255),
+	email VARCHAR(255),
+	foto TINYBLOB,
+	nombre VARCHAR(255),
+	nombrecomercial VARCHAR(255),
+	ruc VARCHAR(11),
+	telefono VARCHAR(255),
+	weburl VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`estadoregistropedido` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `descripcion` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `descripcion` (`descripcion` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE distrito (
+	id INT NOT NULL,
+	descripcion VARCHAR(255),
+	direccion_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`images` (
-  `ID` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `GALLERY` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT NULL ,
-  `IMAGE` LONGBLOB NULL DEFAULT NULL ,
-  PRIMARY KEY (`ID`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE direccion (
+	id INT NOT NULL,
+	calle VARCHAR(255),
+	lote VARCHAR(255),
+	numero VARCHAR(255),
+	urbanizacion VARCHAR(255),
+	cliente_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`productotienda` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `descripcion` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `precio` DECIMAL(19,2) NOT NULL ,
-  `tienda_id` INT(11) NOT NULL ,
-  `foto` LONGBLOB NULL DEFAULT NULL ,
-  `masFotos` VARCHAR(32) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT NULL ,
-  `observaciones` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT NULL ,
-  `categoriaproducto_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `FK14D1745B694BB50C` (`tienda_id` ASC) ,
-  INDEX `fk_productotienda_categoriaproducto1_idx` (`categoriaproducto_id` ASC) ,
-  CONSTRAINT `FK14D1745B694BB50C`
-    FOREIGN KEY (`tienda_id` )
-    REFERENCES `proydawii`.`tienda` (`id` ),
-  CONSTRAINT `fk_productotienda_categoriaproducto1`
-    FOREIGN KEY (`categoriaproducto_id` )
-    REFERENCES `proydawii`.`categoriaproducto` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE detallepedido (
+	id INT NOT NULL,
+	cantidad INT NOT NULL,
+	preciounitario DECIMAL(10 , 2),
+	producto VARCHAR(255),
+	pedido_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`repartidor` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `apellido` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `dni` VARCHAR(8) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `email` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT NULL ,
-  `nombre` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `telefono` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT NULL ,
-  `tienda_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `dni` (`dni` ASC) ,
-  INDEX `FK5627A04694BB50C` (`tienda_id` ASC) ,
-  CONSTRAINT `FK5627A04694BB50C`
-    FOREIGN KEY (`tienda_id` )
-    REFERENCES `proydawii`.`tienda` (`id` ))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE categoriaproducto (
+	id INT NOT NULL,
+	descripcion VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`tienda` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `descripcion` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `calle` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `telefono` VARCHAR(255) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  `distrito_id` INT(11) NOT NULL ,
-  `empresa_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `descripcion` (`descripcion` ASC) ,
-  INDEX `FK954E4AFBF815B6C` (`distrito_id` ASC) ,
-  INDEX `FK954E4AFBFBDAEA28` (`empresa_id` ASC) ,
-  CONSTRAINT `FK954E4AFBFBDAEA28`
-    FOREIGN KEY (`empresa_id` )
-    REFERENCES `proydawii`.`empresa` (`id` ),
-  CONSTRAINT `FK954E4AFBF815B6C`
-    FOREIGN KEY (`distrito_id` )
-    REFERENCES `proydawii`.`distrito` (`id` ))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE pedido (
+	id INT NOT NULL,
+	fechahoraentrada DATETIME,
+	fechahorasalida DATETIME,
+	observaciones VARCHAR(255),
+	estadoregistropedido_id INT,
+	tienda_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`tipocliente` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `descripcion` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE cliente (
+	id INT NOT NULL,
+	apellido VARCHAR(255),
+	calle VARCHAR(255),
+	dni VARCHAR(255),
+	email VARCHAR(255),
+	nombre VARCHAR(255),
+	telefono VARCHAR(255),
+	tipocliente_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`direccion` (
-  `iddireccion` INT(11) NOT NULL ,
-  `calle` VARCHAR(50) NOT NULL ,
-  `numero` VARCHAR(20) NULL DEFAULT NULL ,
-  `urbanizacion` VARCHAR(50) NULL DEFAULT NULL ,
-  `lote` VARCHAR(20) NULL DEFAULT NULL ,
-  `cliente_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`iddireccion`) ,
-  INDEX `fk_direccion_cliente1_idx` (`cliente_id` ASC) ,
-  CONSTRAINT `fk_direccion_cliente1`
-    FOREIGN KEY (`cliente_id` )
-    REFERENCES `proydawii`.`cliente` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE images (
+	ID VARCHAR(255) NOT NULL,
+	GALLERY VARCHAR(255),
+	IMAGE TINYBLOB,
+	PRIMARY KEY (ID)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`Pedido` (
-  `idpedido` INT(11) NOT NULL ,
-  `tienda_id` INT(11) NOT NULL ,
-  `fechahoraentrada` DATETIME NOT NULL DEFAULT 'now()' ,
-  `fechahorasalida` DATETIME NULL DEFAULT NULL ,
-  `estadoregistropedido_id` INT(11) NOT NULL ,
-  `observaciones` VARCHAR(225) NULL DEFAULT NULL ,
-  PRIMARY KEY (`idpedido`) ,
-  INDEX `fk_Pedido_tienda1_idx` (`tienda_id` ASC) ,
-  INDEX `fk_Pedido_estadoregistropedido1_idx` (`estadoregistropedido_id` ASC) ,
-  CONSTRAINT `fk_Pedido_tienda1`
-    FOREIGN KEY (`tienda_id` )
-    REFERENCES `proydawii`.`tienda` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Pedido_estadoregistropedido1`
-    FOREIGN KEY (`estadoregistropedido_id` )
-    REFERENCES `proydawii`.`estadoregistropedido` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE repartidor (
+	id INT NOT NULL,
+	apellido VARCHAR(255),
+	dni VARCHAR(8),
+	email VARCHAR(255),
+	nombre VARCHAR(255),
+	telefono VARCHAR(255),
+	tienda_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `proydawii`.`DetallePedido` (
-  `iddetallepedido` INT(11) NOT NULL ,
-  `Pedido_idpedido` INT(11) NOT NULL ,
-  `cantidad` INT(10) UNSIGNED NOT NULL ,
-  `producto` VARCHAR(100) NOT NULL ,
-  `preciounitario` DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT 0.00 ,
-  PRIMARY KEY (`iddetallepedido`) ,
-  INDEX `fk_DetallePedido_Pedido1_idx` (`Pedido_idpedido` ASC) ,
-  CONSTRAINT `fk_DetallePedido_Pedido1`
-    FOREIGN KEY (`Pedido_idpedido` )
-    REFERENCES `proydawii`.`Pedido` (`idpedido` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1
-COLLATE = latin1_spanish_ci;
+CREATE TABLE productotienda (
+	id INT NOT NULL,
+	descripcion VARCHAR(255),
+	foto TINYBLOB,
+	masFotos VARCHAR(255),
+	observaciones VARCHAR(255),
+	precio DECIMAL(10 , 2),
+	categoriaproducto_id INT,
+	tienda_id INT,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
+CREATE INDEX FK954E4AFBFBDAEA28 ON tienda (empresa_id ASC);
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+CREATE INDEX FK3E0A6D109BAC2888 ON direccion (cliente_id ASC);
+
+CREATE INDEX FK5627A04694BB50C ON repartidor (tienda_id ASC);
+
+CREATE INDEX FK151399B886B34948 ON distrito (direccion_id ASC);
+
+CREATE INDEX FK96841DDAF0E33E08 ON cliente (tipocliente_id ASC);
+
+CREATE UNIQUE INDEX dni ON repartidor (dni ASC);
+
+CREATE INDEX FK954E4AFBF815B6C ON tienda (distrito_id ASC);
+
+CREATE INDEX FK14D1745B694BB50C ON productotienda (tienda_id ASC);
+
+CREATE INDEX FK8E420365694BB50C ON pedido (tienda_id ASC);
+
+CREATE INDEX FK8E4203658BCA0AAC ON pedido (estadoregistropedido_id ASC);
+
+CREATE INDEX FK6EE90F5C3440E4CC ON detallepedido (pedido_id ASC);
+
+CREATE INDEX FK14D1745BB6599C68 ON productotienda (categoriaproducto_id ASC);
+
+ALTER TABLE pedido ADD CONSTRAINT FK8E4203658BCA0AAC FOREIGN KEY (estadoregistropedido_id)
+	REFERENCES estadoregistropedido (id);
+
+ALTER TABLE pedido ADD CONSTRAINT FK8E420365694BB50C FOREIGN KEY (tienda_id)
+	REFERENCES tienda (id);
+

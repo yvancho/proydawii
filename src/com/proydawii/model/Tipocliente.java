@@ -2,8 +2,6 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import java.util.*;
-
 
 /**
  * The persistent class for the tipocliente database table.
@@ -16,7 +14,7 @@ public class Tipocliente extends Identificable {
 	private String descripcion;
 
 	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="tipocliente")
+	/*@OneToMany(mappedBy="tipocliente")
 	private Collection<Cliente> clientes = new ArrayList<Cliente>();
 
 	public Collection<Cliente> getClientes() {
@@ -26,7 +24,7 @@ public class Tipocliente extends Identificable {
 	public void setClientes(Collection<Cliente> clientes) {
 		this.clientes = clientes;
 	}
-
+*/
 	public String getDescripcion() {
 		return this.descripcion;
 	}

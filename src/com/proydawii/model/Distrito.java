@@ -19,10 +19,6 @@ public class Distrito extends Identificable {
 	@OneToMany(mappedBy="distrito")
 	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
 
-	//bi-directional many-to-one association to Direccion
-	@ManyToOne(fetch=FetchType.LAZY)
-	private Direccion direccion;
-
 	public Collection<Tienda> getTiendas() {
 		return tiendas;
 	}
@@ -37,14 +33,6 @@ public class Distrito extends Identificable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public Direccion getDireccion() {
-		return this.direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
 	}
 
 }

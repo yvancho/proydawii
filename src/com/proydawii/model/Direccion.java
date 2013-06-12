@@ -2,19 +2,23 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import java.util.*;
+import org.openxava.annotations.*;
 
 
 /**
  * The persistent class for the direccion database table.
  * 
  */
-@Entity
-public class Direccion extends Identificable {
+@Embeddable
+public class Direccion {
 	
 	//bi-directional many-to-one association to Distrito
-	@OneToMany(mappedBy="direccion")
-	private Collection<Distrito> distritos = new ArrayList<Distrito>();
+	//@OneToMany(mappedBy="direccion")
+	//private Collection<Distrito> distritos = new ArrayList<Distrito>();
+	@Required
+	@ManyToOne
+	@DescriptionsList
+	private Distrito distrito;
 
 	private String calle;
 
@@ -23,17 +27,14 @@ public class Direccion extends Identificable {
 	private String urbanizacion;
 
 	private String lote;
+	
 
-	//bi-directional many-to-one association to Cliente
-	@ManyToOne(fetch=FetchType.LAZY)
-	private Cliente cliente;
-
-	public Collection<Distrito> getDistritos() {
-		return distritos;
+	public Distrito getDistrito() {
+		return distrito;
 	}
 
-	public void setDistritos(Collection<Distrito> distritos) {
-		this.distritos = distritos;
+	public void setDistrito(Distrito distrito) {
+		this.distrito = distrito;
 	}
 
 	public String getCalle() {
@@ -66,14 +67,6 @@ public class Direccion extends Identificable {
 
 	public void setUrbanizacion(String urbanizacion) {
 		this.urbanizacion = urbanizacion;
-	}
-
-	public Cliente getCliente() {
-		return this.cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 
 }

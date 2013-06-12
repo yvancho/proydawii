@@ -2,7 +2,7 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import java.util.*;
+import org.openxava.annotations.*;
 
 
 /**
@@ -12,50 +12,52 @@ import java.util.*;
 @Entity
 public class Cliente extends Identificable {
 	
+	@Required
+	@Column(length=8,nullable=false,unique=true)
 	private String dni;
 
+	@Required
+	@Column(nullable=false)
 	private String nombre;
 
+	@Required
+	@Column(nullable=false)
 	private String apellido;
 
-	private String calle;
-
+	@Required
+	@Column(nullable=false,length=50,unique=true)
+	@Stereotype("EMAIL")
 	private String email;
 
+	@Required
+	@Stereotype("TELEPHONE")
+	@Column(nullable=false)
 	private String telefono;
 
+	@Required
 	//bi-directional many-to-one association to Tipocliente
 	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
 	private Tipocliente tipocliente;
 
-	//bi-directional many-to-one association to Direccion
-	@OneToMany(mappedBy="cliente")
-	private Collection<Direccion> direcciones = new ArrayList<Direccion>();
-
-	
-
-	public Collection<Direccion> getDirecciones() {
-		return direcciones;
-	}
-
-	public void setDirecciones(Collection<Direccion> direcciones) {
-		this.direcciones = direcciones;
-	}
+	@Required
+	@NoFrame @Embedded
+	private Direccion direccion;	
 
 	public String getApellido() {
 		return this.apellido;
 	}
 
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-
-	public String getCalle() {
-		return this.calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
 	}
 
 	public String getDni() {

@@ -14,6 +14,7 @@ import java.util.*;
 @Entity
 public class Pedido extends Identificable {
 
+	
 	@Stereotype("DATETIME")
 	private Date fechahoraentrada;
 
