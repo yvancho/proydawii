@@ -1,54 +1,90 @@
 package com.proydawii.model;
 
-import java.util.*;
-
 import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import java.util.*;
+
+
+/**
+ * The persistent class for the empresa database table.
+ * 
+ */
 @Entity
 public class Empresa extends Identificable {
 	
-	@Column(length=50, nullable=false, unique=true)
-	@Required
-	private String nombre;
-	
-	@Column(length=50, nullable=false, unique=true)
-	@Required
-	private String nombrecomercial;
-	
-	@Column(length=11, nullable=false, unique=true)
-	@Required
-	private String ruc;
-	
-	@Required
-	@ManyToOne(fetch = FetchType.LAZY)
-	@DescriptionsList
-	private Distrito distrito;
 
-	@Column(length=50)
-	private String calle;
+	@Stereotype("MEMO")
+	private String comentarios;
+
+	private String direccion;
+
+	@Stereotype("EMAIL")
+	private String email;
+
+	private String nombre;
+
+	private String nombrecomercial;
+
+	@Stereotype("PHOTO")
+	private byte[] foto;
+
+	@Column(length=11)
+	private String ruc;
 
 	@Stereotype("TELEPHONE")
 	private String telefono;
 	
-	@Stereotype("EMAIL")
-	private String email;
-	
 	@Stereotype("WEBURL")
 	private String weburl;
-	
-	@Stereotype("PHOTO")
-	private byte[] photo;
-	
-	@Stereotype("MEMO")
-	private String comentarios;
-	
-	@OneToMany(mappedBy="empresa",cascade = CascadeType.ALL)
-	private Collection<Tienda> tienda = new ArrayList<Tienda>();
+
+	//bi-directional many-to-one association to Tienda
+	@OneToMany(mappedBy="empresa")
+	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
+	public Collection<Tienda> getTiendas() {
+		return tiendas;
+	}
+
+	public void setTiendas(Collection<Tienda> tiendas) {
+		this.tiendas = tiendas;
+	}
+
+	public String getComentarios() {
+		return this.comentarios;
+	}
+
+	public void setComentarios(String comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	public String getDireccion() {
+		return this.direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
@@ -56,15 +92,17 @@ public class Empresa extends Identificable {
 	}
 
 	public String getNombrecomercial() {
-		return nombrecomercial;
+		return this.nombrecomercial;
 	}
 
 	public void setNombrecomercial(String nombrecomercial) {
 		this.nombrecomercial = nombrecomercial;
 	}
 
+	
+
 	public String getRuc() {
-		return ruc;
+		return this.ruc;
 	}
 
 	public void setRuc(String ruc) {
@@ -72,69 +110,19 @@ public class Empresa extends Identificable {
 	}
 
 	public String getTelefono() {
-		return telefono;
+		return this.telefono;
 	}
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getWeburl() {
-		return weburl;
+		return this.weburl;
 	}
 
 	public void setWeburl(String weburl) {
 		this.weburl = weburl;
 	}
 
-	public byte[] getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
-	}
-
-	public String getComentarios() {
-		return comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-
-	public Collection<Tienda> getTienda() {
-		return tienda;
-	}
-
-	public void setTienda(Collection<Tienda> tienda) {
-		this.tienda = tienda;
-	}
-
-	public String getCalle() {
-		return calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-
-	public Distrito getDistrito() {
-		return distrito;
-	}
-
-	public void setDistrito(Distrito distrito) {
-		this.distrito = distrito;
-	}
-
-	
-	
 }

@@ -4,19 +4,19 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
-@Entity
-public class Repartidor extends Identificable {
 
-	@Column(length = 8, unique = true)
-	@Required
+/**
+ * The persistent class for the repartidor database table.
+ * 
+ */
+@Entity
+public class Repartidor extends Identificable{
+	
+	@Column(length=8,unique=true)
 	private String dni;
 
-	@Column(length = 50, nullable = false)
-	@Required
 	private String nombre;
 
-	@Column(length = 50, nullable = false)
-	@Required
 	private String apellido;
 
 	@Stereotype("EMAIL")
@@ -25,57 +25,56 @@ public class Repartidor extends Identificable {
 	@Stereotype("TELEPHONE")
 	private String telefono;
 
-	@Required
-	@ManyToOne(fetch = FetchType.LAZY)
-	@DescriptionsList
+	//bi-directional many-to-one association to Tienda
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Tienda tienda;
 
-	public Tienda getTienda() {
-		return tienda;
-	}
-
-	public void setTienda(Tienda tienda) {
-		this.tienda = tienda;
-	}
-
-	public String getDni() {
-		return dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public String getApellido() {
-		return apellido;
+		return this.apellido;
 	}
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
 
+	public String getDni() {
+		return this.dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public String getTelefono() {
-		return telefono;
+		return this.telefono;
 	}
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	public Tienda getTienda() {
+		return this.tienda;
+	}
+
+	public void setTienda(Tienda tienda) {
+		this.tienda = tienda;
 	}
 
 }

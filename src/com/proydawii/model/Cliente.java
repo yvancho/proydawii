@@ -2,90 +2,104 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import org.openxava.annotations.*;
+import java.util.*;
 
+
+/**
+ * The persistent class for the cliente database table.
+ * 
+ */
 @Entity
 public class Cliente extends Identificable {
-
-	@Column(length = 8, unique = true, nullable=false)
-	@Required
-	private String dni;
-	@Column(length = 50, nullable = false)
-	@Required
-	private String nombre;
-	@Column(length = 50, nullable = false)
-	@Required
-	private String apellido;
-	@Embedded
-	@NoFrame
-	private Direccion direccion;
-		
-	@Stereotype("EMAIL")
-	@Column(nullable=false)
-	private String email;
 	
-	@Stereotype("TELEPHONE")
+	private String dni;
+
+	private String nombre;
+
+	private String apellido;
+
+	private String calle;
+
+	private String email;
+
 	private String telefono;
 
-	@Required
-	@ManyToOne(fetch = FetchType.LAZY)
-	@DescriptionsList
-	private Tipocliente tipo;
+	//bi-directional many-to-one association to Tipocliente
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Tipocliente tipocliente;
 
-	public Tipocliente getTipo() {
-		return tipo;
+	//bi-directional many-to-one association to Direccion
+	@OneToMany(mappedBy="cliente")
+	private Collection<Direccion> direcciones = new ArrayList<Direccion>();
+
+	
+
+	public Collection<Direccion> getDirecciones() {
+		return direcciones;
 	}
 
-	public void setTipo(Tipocliente tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getDni() {
-		return dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setDirecciones(Collection<Direccion> direcciones) {
+		this.direcciones = direcciones;
 	}
 
 	public String getApellido() {
-		return apellido;
+		return this.apellido;
 	}
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
 
-	public Direccion getDireccion() {
-		return direccion;
+	public String getCalle() {
+		return this.calle;
 	}
 
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public String getDni() {
+		return this.dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public String getTelefono() {
-		return telefono;
+		return this.telefono;
 	}
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
+	public Tipocliente getTipocliente() {
+		return this.tipocliente;
+	}
+
+	public void setTipocliente(Tipocliente tipocliente) {
+		this.tipocliente = tipocliente;
+	}
+
+
+	
+	
 
 }

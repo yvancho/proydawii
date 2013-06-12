@@ -2,28 +2,23 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import org.openxava.annotations.*;
+import java.util.*;
 
+
+/**
+ * The persistent class for the tipocliente database table.
+ * 
+ */
 @Entity
 public class Tipocliente extends Identificable {
+	
 
-	@Required
-	@Column(length = 50,nullable=false)	
 	private String descripcion;
-	
-	/*
-	@OneToMany(mappedBy="tipo")
-	private Collection<Cliente> clientes;
-*/
-	
-	public String getDescripcion() {
-		return descripcion;
-	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-/*
+	//bi-directional many-to-one association to Cliente
+	@OneToMany(mappedBy="tipocliente")
+	private Collection<Cliente> clientes = new ArrayList<Cliente>();
+
 	public Collection<Cliente> getClientes() {
 		return clientes;
 	}
@@ -31,5 +26,13 @@ public class Tipocliente extends Identificable {
 	public void setClientes(Collection<Cliente> clientes) {
 		this.clientes = clientes;
 	}
-	*/	
+
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 }
