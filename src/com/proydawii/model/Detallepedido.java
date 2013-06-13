@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-@View(members = "producto; cantidad, preciounitario, importe")
+@View(members = "producto; cantidad, preciounitario, importe; pedido")
 public class Detallepedido extends Identificable {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
