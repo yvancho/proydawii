@@ -2,54 +2,73 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
+//import org.hibernate.validator.*;
 import org.openxava.annotations.*;
 
-import java.util.*;
+import com.proydawii.calculators.*;
 
+import java.math.*;
+import java.util.*;
 
 /**
  * The persistent class for the pedido database table.
  * 
  */
 @Entity
-@View(members="id, fechahoraentrada;" +
-		"cliente;"+"detallepedidos;" +
-		"observaciones")
+@View(members = "id," +
+				"fechahoraentrada," +
+				"fechahorasalida," +
+				"estadoregistropedido," +
+				"tienda; " + 
+				"data {" +		
+					"cliente;" + 
+					"detallepedidos;" +
+					"montos[" +
+						"porcentajeigv, " +
+						"montoBase," +
+						"igv," +
+						"montoTotal" +
+					"];" +
+					"observaciones" +
+				"}"
+				)
 public class Pedido {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@Stereotype("DATETIME")
 	private Date fechahoraentrada;
 
 	@Stereotype("DATETIME")
 	private Date fechahorasalida;
 
-	//bi-directional many-to-one association to Tienda
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Tienda
+	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Tienda tienda;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@ReferenceView("Simple")
 	private Cliente cliente;
-	
-	//bi-directional many-to-one association to Detallepedido
-	@OneToMany(mappedBy="pedido")
-	@ListProperties("producto.id," +
-					"producto.descripcion," +
-					"cantidad," +
-					"preciounitario," +
-					"importe")
+
+	//@Digits(integerDigits = 2, fractionalDigits = 0)
+	//@Required
+	@DefaultValueCalculator(PorcentajeIgvCalculator.class)
+	private BigDecimal porcentajeigv;
+
+	// bi-directional many-to-one association to Detallepedido
+	@OneToMany(mappedBy = "pedido")
+	@ListProperties("producto.id," + "producto.descripcion," + "cantidad,"
+			+ "producto.precio," + "importe")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 
 	@Stereotype("TEXTO_GRANDE")
 	private String observaciones;
 
-	//bi-directional many-to-one association to Estadoregistropedido
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Estadoregistropedido
+	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Estadoregistropedido estadoregistropedido;
 
@@ -59,6 +78,26 @@ public class Pedido {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	
+//	public BigDecimal getPorcentajeigv() {
+//		return porcentajeigv == null ? BigDecimal.ZERO : porcentajeigv;
+//	}
+//
+//	public void setPorcentajeigv(BigDecimal porcentajeigv) {
+//		this.porcentajeigv = porcentajeigv;
+//	}
+
+	public BigDecimal getPorcentajeigv() {
+		if (porcentajeigv == null) {
+			return BigDecimal.ZERO;
+		}
+		return porcentajeigv;
+	}
+
+	public void setPorcentajeigv(BigDecimal porcentajeigv) {
+		this.porcentajeigv = porcentajeigv;
 	}
 
 	public Collection<Detallepedido> getDetallepedidos() {
@@ -113,8 +152,36 @@ public class Pedido {
 		return this.estadoregistropedido;
 	}
 
-	public void setEstadoregistropedido(Estadoregistropedido estadoregistropedido) {
+	public void setEstadoregistropedido(
+			Estadoregistropedido estadoregistropedido) {
 		this.estadoregistropedido = estadoregistropedido;
+	}
+
+	// MONTOS CALCULADOS
+
+	//Monto base
+	@Stereotype("MONEY")
+	public BigDecimal getMontoBase() {
+		BigDecimal resultado = new BigDecimal("0.00");
+		for (Detallepedido detalle : getDetallepedidos()) {
+			resultado = resultado.add(detalle.getImporte());
+		}
+		return resultado;
+	}
+
+	//IGV
+	@Stereotype("MONEY")
+	@Depends("porcentajeigv")
+	public BigDecimal getIgv() {
+		return getMontoBase().multiply(getPorcentajeigv()).divide(
+				new BigDecimal("100"));
+	}
+
+	//TOTAL
+	@Stereotype("MONEY")
+	@Depends("montoBase, igv")
+	public BigDecimal getMontoTotal() {
+		return getMontoBase().add(getIgv());
 	}
 
 }
