@@ -28,7 +28,7 @@ public class Empresa extends Identificable {
 	@Stereotype("EMAIL")
 	private String email;
 
-	@Stereotype("PHOTO")
+	@Stereotype("FOTO")
 	private byte[] foto;
 
 	@Stereotype("TELEPHONE")

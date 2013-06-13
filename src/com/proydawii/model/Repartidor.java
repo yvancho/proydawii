@@ -29,7 +29,7 @@ public class Repartidor extends Identificable {
 	@DescriptionsList
 	private Tienda tienda;
 
-	@Stereotype("PHOTOGRAPH")
+	@Stereotype("FOTO")
 	private byte[] foto;
 
 	public byte[] getFoto() {

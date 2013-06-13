@@ -12,6 +12,9 @@ import java.util.*;
  * 
  */
 @Entity
+@View(members="id, fechahoraentrada;" +
+		"cliente;"+"detallepedidos;" +
+		"observaciones")
 public class Pedido {
 
 	@Id
@@ -29,8 +32,17 @@ public class Pedido {
 	@DescriptionsList
 	private Tienda tienda;
 
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ReferenceView("Simple")
+	private Cliente cliente;
+	
 	//bi-directional many-to-one association to Detallepedido
 	@OneToMany(mappedBy="pedido")
+	@ListProperties("producto.id," +
+					"producto.descripcion," +
+					"cantidad," +
+					"preciounitario," +
+					"importe")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 
 	@Stereotype("TEXTO_GRANDE")
@@ -87,6 +99,14 @@ public class Pedido {
 
 	public void setTienda(Tienda tienda) {
 		this.tienda = tienda;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Estadoregistropedido getEstadoregistropedido() {

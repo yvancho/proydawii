@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.calculators.*;
+
 import java.math.BigDecimal;
 
 /**
@@ -11,10 +13,15 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
+@View(members = "producto; cantidad, preciounitario, importe")
 public class Detallepedido extends Identificable {
 
-	private String producto;
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@ReferenceView("Simple")
+	@NoFrame
+	private Productotienda producto;
 
+	@DefaultValueCalculator(value = PrecioPorUnidad.class, properties = @PropertyValue(name = "productoId", from = "producto.id"))
 	@Stereotype("DINERO")
 	private BigDecimal preciounitario;
 
@@ -24,12 +31,12 @@ public class Detallepedido extends Identificable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Pedido pedido;
 
-	public int getCantidad() {
-		return this.cantidad;
+	public Productotienda getProducto() {
+		return producto;
 	}
 
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
+	public void setProducto(Productotienda producto) {
+		this.producto = producto;
 	}
 
 	public BigDecimal getPreciounitario() {
@@ -43,6 +50,14 @@ public class Detallepedido extends Identificable {
 		this.preciounitario = preciounitario;
 	}
 
+	public int getCantidad() {
+		return this.cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
 	public Pedido getPedido() {
 		return this.pedido;
 	}
@@ -51,12 +66,10 @@ public class Detallepedido extends Identificable {
 		this.pedido = pedido;
 	}
 
-	public String getProducto() {
-		return producto;
-	}
-
-	public void setProducto(String producto) {
-		this.producto = producto;
+	@Stereotype("MONEY")
+	@Depends("producto.id, cantidad")
+	public BigDecimal getImporte() {
+		return new BigDecimal(cantidad).multiply(producto.getPrecio());
 	}
 
 }

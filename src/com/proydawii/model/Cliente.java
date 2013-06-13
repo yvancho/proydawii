@@ -10,6 +10,8 @@ import org.openxava.annotations.*;
  * 
  */
 @Entity
+@View(name="Simple",
+	  members="id, nombre, apellido")
 public class Cliente extends Identificable {
 	
 	@Required
@@ -44,7 +46,7 @@ public class Cliente extends Identificable {
 	@DescriptionsList
 	private Tipocliente tipocliente;
 	
-	@Stereotype("PHOTOGRAPH")
+	@Stereotype("FOTO")
 	private byte[] foto;
 
 	public byte[] getFoto() {

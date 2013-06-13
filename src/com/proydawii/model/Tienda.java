@@ -24,7 +24,8 @@ public class Tienda extends Identificable {
 	@Column(length=50,nullable=false)
 	private String calle;
 
-	@Column(length=50,nullable=false)
+	@Required
+	@Stereotype("TELEFONO")
 	private String telefono;
 
 	//bi-directional many-to-one association to Productotienda

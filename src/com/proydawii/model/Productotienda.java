@@ -7,14 +7,18 @@ import org.openxava.annotations.*;
 import java.math.BigDecimal;
 
 @Entity
+@View(name = "Simple", 
+	  members = "id, descripcion")
 public class Productotienda extends Identificable {
 	
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
 
-	@Stereotype("PHOTOGRAPH")
+	@Stereotype("FOTO")
 	private byte[] foto;
 
+	@Stereotype("IMAGES_GALLERY")
+	@Column(length = 32)
 	private String masFotos;
 
 	@Stereotype("MEMO")
