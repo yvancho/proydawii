@@ -27,6 +27,10 @@
 			<property name="hibernate.connection.username" value="root" />
 			<!-- La contraseña del usuario de la base de datos -->
 			<property name="hibernate.connection.password" value="mysql" />
+			<property name="javax.persistence.jdbc.password" value="mysql"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>			
+			<property name="hibernate.hbm2ddl.auto" value="validate"/>
 		</properties>
 	</persistence-unit>
 

@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 //import org.hibernate.validator.*;
 import org.openxava.annotations.*;
-
 import com.proydawii.calculators.*;
 
 import java.math.*;
@@ -15,27 +14,17 @@ import java.util.*;
  * 
  */
 @Entity
-@View(members = "id," +
-				"fechahoraentrada," +
-				"fechahorasalida," +
-				"estadoregistropedido," +
-				"tienda; " + 
-				"data {" +		
-					"cliente;" + 
-					"detallepedidos;" +
-					"montos[" +
-						"porcentajeigv, " +
-						"montoBase," +
-						"igv," +
-						"montoTotal" +
-					"];" +
-					"observaciones" +
-				"}"
-				)
+@View(members = "id," + "fechahoraentrada," + "fechahorasalida,"
+		+ "estadoregistropedido," + "tienda; " + "data {" + "cliente;"
+		+ "detallepedidos;" + "montos[" + "porcentajeigv, " + "montoBase,"
+		+ "igv," + "montoTotal" + "];" + "observaciones" + "}")
 public class Pedido {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@DefaultValueCalculator(
+			value = SiguienteIdPorYearCalculator.class			
+	)
+	@ReadOnly
 	private int id;
 
 	@Stereotype("DATETIME")
@@ -53,15 +42,15 @@ public class Pedido {
 	@ReferenceView("Simple")
 	private Cliente cliente;
 
-	//@Digits(integerDigits = 2, fractionalDigits = 0)
-	//@Required
+	// @Digits(integerDigits = 2, fractionalDigits = 0)
+	// @Required
 	@DefaultValueCalculator(PorcentajeIgvCalculator.class)
 	private BigDecimal porcentajeigv;
 
 	// bi-directional many-to-one association to Detallepedido
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
 	@ListProperties("producto.id," + "producto.descripcion," + "cantidad,"
-			+ "producto.precio," + "importe")
+			+ "producto.precio," + "importe,producto.tienda.descripcion")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 
 	@Stereotype("TEXTO_GRANDE")
@@ -80,14 +69,13 @@ public class Pedido {
 		this.id = id;
 	}
 
-	
-//	public BigDecimal getPorcentajeigv() {
-//		return porcentajeigv == null ? BigDecimal.ZERO : porcentajeigv;
-//	}
-//
-//	public void setPorcentajeigv(BigDecimal porcentajeigv) {
-//		this.porcentajeigv = porcentajeigv;
-//	}
+	// public BigDecimal getPorcentajeigv() {
+	// return porcentajeigv == null ? BigDecimal.ZERO : porcentajeigv;
+	// }
+	//
+	// public void setPorcentajeigv(BigDecimal porcentajeigv) {
+	// this.porcentajeigv = porcentajeigv;
+	// }
 
 	public BigDecimal getPorcentajeigv() {
 		if (porcentajeigv == null) {
@@ -159,7 +147,7 @@ public class Pedido {
 
 	// MONTOS CALCULADOS
 
-	//Monto base
+	// Monto base
 	@Stereotype("MONEY")
 	public BigDecimal getMontoBase() {
 		BigDecimal resultado = new BigDecimal("0.00");
@@ -169,7 +157,7 @@ public class Pedido {
 		return resultado;
 	}
 
-	//IGV
+	// IGV
 	@Stereotype("MONEY")
 	@Depends("porcentajeigv")
 	public BigDecimal getIgv() {
@@ -177,11 +165,25 @@ public class Pedido {
 				new BigDecimal("100"));
 	}
 
-	//TOTAL
+	// TOTAL
 	@Stereotype("MONEY")
 	@Depends("montoBase, igv")
 	public BigDecimal getMontoTotal() {
 		return getMontoBase().add(getIgv());
 	}
+/*
+	@PrePersist
+	public void calculateId() throws Exception {
+		System.out.println("hola");
+		//int year= Calendar.getInstance().get(Calendar.YEAR);
+		Query query = XPersistence.getManager().createQuery(
+				"select max(i.id) from " + getClass().getSimpleName()
+						+ " i"); //where year(i.fechahoraentrada) = :year");
+		//query.setParameter("year", year);
+		Integer ultimoId = (Integer) query.getSingleResult();
+		System.out.println(ultimoId+1);
+		this.id = ultimoId == null ? 1 : ultimoId + 1;
+	}
+	*/
 
 }

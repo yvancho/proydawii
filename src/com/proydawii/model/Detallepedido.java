@@ -3,7 +3,6 @@ package com.proydawii.model;
 import javax.persistence.*;
 
 import org.openxava.annotations.*;
-
 import com.proydawii.calculators.*;
 
 import java.math.BigDecimal;
@@ -66,6 +65,8 @@ public class Detallepedido extends Identificable {
 		this.pedido = pedido;
 	}
 
+	//PROPIEDADES CALCULADAS
+	
 	@Stereotype("MONEY")
 	@Depends("producto.id, cantidad")
 	public BigDecimal getImporte() {
