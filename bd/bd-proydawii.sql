@@ -10,6 +10,8 @@ USE `proydawii`;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
@@ -45,7 +47,9 @@ CREATE TABLE `empresa` (
 --
 
 LOCK TABLES `empresa` WRITE;
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
 INSERT INTO `empresa` VALUES (1,'','JR. RIOS 1234 LIMA','kfc@mial.com',NULL,'ASUS SAC','KENTUCKY FRIED CHICKEN','98765432112','987444562','');
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -70,7 +74,7 @@ CREATE TABLE `productotienda` (
   KEY `FK14D1745BB6599C68` (`categoriaproducto_id`),
   CONSTRAINT `FK14D1745B694BB50C` FOREIGN KEY (`tienda_id`) REFERENCES `tienda` (`id`),
   CONSTRAINT `FK14D1745BB6599C68` FOREIGN KEY (`categoriaproducto_id`) REFERENCES `categoriaproducto` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +82,9 @@ CREATE TABLE `productotienda` (
 --
 
 LOCK TABLES `productotienda` WRITE;
-INSERT INTO `productotienda` VALUES (1,'INCA COLA 1LT',NULL,'','',7.00,1,1),(2,'POLLO ENTERO',NULL,'','',45.00,2,1),(3,'MUFFIN',NULL,'','',3.00,3,1),(5,'Bembos grande',NULL,'','',10.00,2,2);
+/*!40000 ALTER TABLE `productotienda` DISABLE KEYS */;
+INSERT INTO `productotienda` VALUES (1,'INCA COLA 1LT',NULL,'','',7.00,1,1),(2,'POLLO ENTERO',NULL,'','',45.00,2,1),(3,'MUFFIN',NULL,'','',2.50,3,1),(5,'Bembos grande',NULL,'','',10.00,2,2),(6,'Alitas Fritas',NULL,'','',12.20,2,1);
+/*!40000 ALTER TABLE `productotienda` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -100,7 +106,9 @@ CREATE TABLE `distrito` (
 --
 
 LOCK TABLES `distrito` WRITE;
+/*!40000 ALTER TABLE `distrito` DISABLE KEYS */;
 INSERT INTO `distrito` VALUES (1,'Ancón'),(2,'Ate'),(3,'Barranco'),(4,'Breña'),(5,'Carabayllo'),(6,'Chaclacayo'),(7,'Chorrillos'),(8,'Cieneguilla'),(9,'Comas'),(10,'El Agustino'),(11,'Independencia'),(12,'Jesús María'),(13,'La Molina'),(14,'La Victoria'),(15,'Lince'),(16,'Los Olivos'),(17,'Lurigancho-Chosica'),(18,'Lurín'),(19,'Magdalena Del Mar'),(20,'Pueblo Libre'),(21,'Miraflores'),(22,'Pachacámac'),(23,'Pucusana'),(24,'Puente Piedra'),(25,'Punta Hermosa'),(26,'Punta Negra'),(27,'Rímac'),(28,'San Bartolo'),(29,'San Borja'),(30,'San Isidro'),(31,'San Juan de Lurigancho'),(32,'San Juan de Miraflores'),(33,'San Luis'),(34,'San Martín de Porres'),(35,'San Miguel'),(36,'Santa Anita'),(37,'Santa María del Mar'),(38,'Santa Rosa'),(39,'Santiago de Surco'),(40,'Surquillo'),(41,'Villa El Salvador'),(42,'Villa María del Triunfo'),(43,'Lima'),(44,'Callao Cercado'),(45,'Bellavista'),(46,'Carmen De La Legua'),(47,'La Perla'),(48,'La Punta'),(49,'Ventanilla');
+/*!40000 ALTER TABLE `distrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -121,9 +129,9 @@ CREATE TABLE `tienda` (
   UNIQUE KEY `descripcion` (`descripcion`),
   KEY `FK954E4AFBF815B6C` (`distrito_id`),
   KEY `FK954E4AFBFBDAEA28` (`empresa_id`),
-  CONSTRAINT `FK954E4AFBFBDAEA28` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`),
-  CONSTRAINT `FK954E4AFBF815B6C` FOREIGN KEY (`distrito_id`) REFERENCES `distrito` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  CONSTRAINT `FK954E4AFBF815B6C` FOREIGN KEY (`distrito_id`) REFERENCES `distrito` (`id`),
+  CONSTRAINT `FK954E4AFBFBDAEA28` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +139,9 @@ CREATE TABLE `tienda` (
 --
 
 LOCK TABLES `tienda` WRITE;
+/*!40000 ALTER TABLE `tienda` DISABLE KEYS */;
 INSERT INTO `tienda` VALUES (1,'Jr. Larco 123','KFC Miraflores','321654987',21,1),(2,'jr larco 1234','Bembos Miraflores','951753265',21,1);
+/*!40000 ALTER TABLE `tienda` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -150,13 +160,15 @@ CREATE TABLE `pedido` (
   `cliente_id` int(11) DEFAULT NULL,
   `estadoregistropedido_id` int(11) DEFAULT NULL,
   `tienda_id` int(11) DEFAULT NULL,
+  `monto` decimal(19,2) DEFAULT NULL,
+  `deleted` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK8E4203659BAC2888` (`cliente_id`),
   KEY `FK8E420365694BB50C` (`tienda_id`),
   KEY `FK8E4203658BCA0AAC` (`estadoregistropedido_id`),
-  CONSTRAINT `FK8E4203659BAC2888` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
   CONSTRAINT `FK8E420365694BB50C` FOREIGN KEY (`tienda_id`) REFERENCES `tienda` (`id`),
-  CONSTRAINT `FK8E4203658BCA0AAC` FOREIGN KEY (`estadoregistropedido_id`) REFERENCES `estadoregistropedido` (`id`)
+  CONSTRAINT `FK8E4203658BCA0AAC` FOREIGN KEY (`estadoregistropedido_id`) REFERENCES `estadoregistropedido` (`id`),
+  CONSTRAINT `FK8E4203659BAC2888` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -165,7 +177,9 @@ CREATE TABLE `pedido` (
 --
 
 LOCK TABLES `pedido` WRITE;
-INSERT INTO `pedido` VALUES (3,'2013-06-15 18:54:00','2013-07-10 18:54:00','',18.00,1,1,1);
+/*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
+INSERT INTO `pedido` VALUES (3,'2013-06-15 23:54:00','2013-07-10 18:54:00','',18.00,1,1,1,402.38,'\0'),(4,'2013-06-13 07:50:00','2013-06-14 02:50:00','Compra de Bembos para varias personas',18.00,2,1,1,236.00,'');
+/*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -196,6 +210,8 @@ CREATE TABLE `repartidor` (
 --
 
 LOCK TABLES `repartidor` WRITE;
+/*!40000 ALTER TABLE `repartidor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `repartidor` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -216,7 +232,7 @@ CREATE TABLE `detallepedido` (
   KEY `FK6EE90F5C3440E4CC` (`pedido_id`),
   CONSTRAINT `FK6EE90F5C3440E4CC` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`),
   CONSTRAINT `FK6EE90F5C6B926FC7` FOREIGN KEY (`producto_id`) REFERENCES `productotienda` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +240,9 @@ CREATE TABLE `detallepedido` (
 --
 
 LOCK TABLES `detallepedido` WRITE;
-INSERT INTO `detallepedido` VALUES (1,2,7.00,3,3),(2,5,45.00,3,2),(3,5,10.00,3,5),(4,20,7.00,3,1);
+/*!40000 ALTER TABLE `detallepedido` DISABLE KEYS */;
+INSERT INTO `detallepedido` VALUES (1,2,2.50,3,3),(2,5,45.00,3,2),(3,5,10.00,3,5),(5,5,12.20,3,6),(6,20,10.00,4,5);
+/*!40000 ALTER TABLE `detallepedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -247,6 +265,8 @@ CREATE TABLE `images` (
 --
 
 LOCK TABLES `images` WRITE;
+/*!40000 ALTER TABLE `images` DISABLE KEYS */;
+/*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -268,7 +288,9 @@ CREATE TABLE `tipocliente` (
 --
 
 LOCK TABLES `tipocliente` WRITE;
+/*!40000 ALTER TABLE `tipocliente` DISABLE KEYS */;
 INSERT INTO `tipocliente` VALUES (1,'STANDARD'),(2,'VIP');
+/*!40000 ALTER TABLE `tipocliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -291,7 +313,9 @@ CREATE TABLE `categoriaproducto` (
 --
 
 LOCK TABLES `categoriaproducto` WRITE;
+/*!40000 ALTER TABLE `categoriaproducto` DISABLE KEYS */;
 INSERT INTO `categoriaproducto` VALUES (1,'BEBIDAS'),(2,'COMIDAS'),(3,'POSTRES');
+/*!40000 ALTER TABLE `categoriaproducto` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -322,7 +346,7 @@ CREATE TABLE `cliente` (
   KEY `FK96841DDAF815B6C` (`distrito_id`),
   CONSTRAINT `FK96841DDAF0E33E08` FOREIGN KEY (`tipocliente_id`) REFERENCES `tipocliente` (`id`),
   CONSTRAINT `FK96841DDAF815B6C` FOREIGN KEY (`distrito_id`) REFERENCES `distrito` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +354,9 @@ CREATE TABLE `cliente` (
 --
 
 LOCK TABLES `cliente` WRITE;
-INSERT INTO `cliente` VALUES (1,'LOPEZ','JIRON GRAU','','123','','41806423','yvanchus@gmail.com',NULL,'YVAN','984118814',19,2);
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (1,'LOPEZ','JIRON GRAU','','123','','41806423','yvanchus@gmail.com',NULL,'YVAN','984118814',19,2),(2,'LOPEZ','Av. San Luis','','231','San Luis','12345678','silvana@mail.com',NULL,'SILVANA','98765432',29,1);
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -353,8 +379,11 @@ CREATE TABLE `estadoregistropedido` (
 --
 
 LOCK TABLES `estadoregistropedido` WRITE;
+/*!40000 ALTER TABLE `estadoregistropedido` DISABLE KEYS */;
 INSERT INTO `estadoregistropedido` VALUES (1,'Activo');
+/*!40000 ALTER TABLE `estadoregistropedido` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -364,4 +393,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-06-13 19:55:55
+-- Dump completed on 2013-06-15 16:16:56

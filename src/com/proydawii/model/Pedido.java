@@ -2,6 +2,7 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
+import org.hibernate.validator.*;
 //import org.hibernate.validator.*;
 import org.openxava.annotations.*;
 import com.proydawii.calculators.*;
@@ -21,9 +22,7 @@ import java.util.*;
 public class Pedido {
 
 	@Id
-	@DefaultValueCalculator(
-			value = SiguienteIdPorYearCalculator.class			
-	)
+	@DefaultValueCalculator(value = SiguienteIdPorYearCalculator.class)
 	@ReadOnly
 	private int id;
 
@@ -42,13 +41,16 @@ public class Pedido {
 	@ReferenceView("Simple")
 	private Cliente cliente;
 
-	// @Digits(integerDigits = 2, fractionalDigits = 0)
-	// @Required
+	@Digits(integerDigits = 2, fractionalDigits = 0)
+	@Required
 	@DefaultValueCalculator(PorcentajeIgvCalculator.class)
 	private BigDecimal porcentajeigv;
 
+	@Stereotype("MONEY")
+	private BigDecimal monto;
+
 	// bi-directional many-to-one association to Detallepedido
-	@OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	@ListProperties("producto.id," + "producto.descripcion," + "cantidad,"
 			+ "producto.precio," + "importe,producto.tienda.descripcion")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
@@ -61,6 +63,12 @@ public class Pedido {
 	@DescriptionsList
 	private Estadoregistropedido estadoregistropedido;
 
+	@Transient
+	private boolean removing = false;
+
+	@Hidden
+	private boolean deleted;
+
 	public int getId() {
 		return id;
 	}
@@ -68,14 +76,6 @@ public class Pedido {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	// public BigDecimal getPorcentajeigv() {
-	// return porcentajeigv == null ? BigDecimal.ZERO : porcentajeigv;
-	// }
-	//
-	// public void setPorcentajeigv(BigDecimal porcentajeigv) {
-	// this.porcentajeigv = porcentajeigv;
-	// }
 
 	public BigDecimal getPorcentajeigv() {
 		if (porcentajeigv == null) {
@@ -86,6 +86,14 @@ public class Pedido {
 
 	public void setPorcentajeigv(BigDecimal porcentajeigv) {
 		this.porcentajeigv = porcentajeigv;
+	}
+
+	public BigDecimal getMonto() {
+		return monto;
+	}
+
+	public void setMonto(BigDecimal monto) {
+		this.monto = monto;
 	}
 
 	public Collection<Detallepedido> getDetallepedidos() {
@@ -171,19 +179,33 @@ public class Pedido {
 	public BigDecimal getMontoTotal() {
 		return getMontoBase().add(getIgv());
 	}
-/*
-	@PrePersist
-	public void calculateId() throws Exception {
-		System.out.println("hola");
-		//int year= Calendar.getInstance().get(Calendar.YEAR);
-		Query query = XPersistence.getManager().createQuery(
-				"select max(i.id) from " + getClass().getSimpleName()
-						+ " i"); //where year(i.fechahoraentrada) = :year");
-		//query.setParameter("year", year);
-		Integer ultimoId = (Integer) query.getSingleResult();
-		System.out.println(ultimoId+1);
-		this.id = ultimoId == null ? 1 : ultimoId + 1;
+
+	public void recalculateMonto() {
+		setMonto(getMontoTotal());
 	}
-	*/
+
+	// RETROLLAMADAS
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	boolean isRemoving() {
+		return removing;
+	}
+
+	@PreRemove
+	private void markRemoving() {
+		this.removing = true;
+	}
+
+	@PostRemove
+	private void unmarkRemoving() {
+		this.removing = false;
+	}
 
 }

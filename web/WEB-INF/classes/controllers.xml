@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE controllers SYSTEM "dtds/controllers.dtd">
+
+<controllers>
+	<controller name="Proydawii">
+	<extends controller="Typical"/>
+	<action name="delete"
+			mode="detail"
+			confirm="true"
+			class="com.proydawii.actions.PedidoDeleteAction"
+			image="images/delete.gif"
+			keystroke="Control D">
+	</action>
+	</controller>
+</controllers>

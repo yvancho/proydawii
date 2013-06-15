@@ -65,12 +65,33 @@ public class Detallepedido extends Identificable {
 		this.pedido = pedido;
 	}
 
-	//PROPIEDADES CALCULADAS
-	
+	// PROPIEDADES CALCULADAS
+
 	@Stereotype("MONEY")
 	@Depends("producto.id, cantidad")
 	public BigDecimal getImporte() {
 		return new BigDecimal(cantidad).multiply(producto.getPrecio());
+	}
+
+	// METODOS DE RETRO-LLAMADA
+	@PrePersist
+	private void onPersist() {
+		getPedido().getDetallepedidos().add(this);
+		getPedido().recalculateMonto();
+	}
+
+	@PreUpdate
+	private void onUpdate() {
+		getPedido().recalculateMonto();
+	}
+
+	@PreRemove
+	private void onRemove() {
+		if (getPedido().isRemoving()) {
+			return;
+		}
+		getPedido().getDetallepedidos().remove(this);
+		getPedido().recalculateMonto();
 	}
 
 }
