@@ -1,6 +1,7 @@
 package com.proydawii.model;
 
 import javax.persistence.*;
+
 import org.openxava.annotations.*;
 
 import java.util.*;
@@ -17,13 +18,18 @@ public class Tienda extends Identificable {
 	private String descripcion;
 
 	//bi-directional many-to-one association to Distrito
+	/*
 	@ManyToOne(fetch=FetchType.LAZY)
 	@DescriptionsList
 	private Distrito distrito;
 
 	@Column(length=50,nullable=false)
 	private String calle;
-
+*/
+	@Required
+	@NoFrame @Embedded
+	private Direccion direccion;
+	
 	@Required
 	@Stereotype("TELEFONO")
 	private String telefono;
@@ -43,6 +49,14 @@ public class Tienda extends Identificable {
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Empresa empresa;
+
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
 
 	public Collection<Productotienda> getProductotiendas() {
 		return productotiendas;
@@ -67,7 +81,7 @@ public class Tienda extends Identificable {
 	public void setPedidos(Collection<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
-
+/*
 	public String getCalle() {
 		return this.calle;
 	}
@@ -75,7 +89,7 @@ public class Tienda extends Identificable {
 	public void setCalle(String calle) {
 		this.calle = calle;
 	}
-
+*/
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -91,7 +105,7 @@ public class Tienda extends Identificable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
+/*
 	public Distrito getDistrito() {
 		return this.distrito;
 	}
@@ -99,7 +113,7 @@ public class Tienda extends Identificable {
 	public void setDistrito(Distrito distrito) {
 		this.distrito = distrito;
 	}
-
+*/
 	public Empresa getEmpresa() {
 		return this.empresa;
 	}

@@ -23,7 +23,18 @@ public class Empresa extends Identificable {
 	@Column(length=11,nullable=false,unique=true)
 	private String ruc;
 
-	private String direccion;
+	//private String direccion;
+	@Required
+	@NoFrame @Embedded
+	private Direccion direccion;
+
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
 
 	@Stereotype("EMAIL")
 	private String email;
@@ -68,6 +79,7 @@ public class Empresa extends Identificable {
 		this.comentarios = comentarios;
 	}
 
+	/*
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -75,7 +87,7 @@ public class Empresa extends Identificable {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-
+*/
 	public String getEmail() {
 		return this.email;
 	}
