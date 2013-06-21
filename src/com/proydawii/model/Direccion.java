@@ -2,8 +2,6 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import org.openxava.annotations.*;
-
 
 /**
  * The persistent class for the direccion database table.
@@ -11,24 +9,19 @@ import org.openxava.annotations.*;
  */
 @Embeddable
 public class Direccion {
-	
-	//bi-directional many-to-one association to Distrito
-	//@OneToMany(mappedBy="direccion")
-	//private Collection<Distrito> distritos = new ArrayList<Distrito>();
+	/*
 	@Required
 	@ManyToOne
 	@DescriptionsList
 	private Distrito distrito;
-
-	private String calle;
-
-	private String numero;
-
-	private String urbanizacion;
-
-	private String lote;
+*/
+	//@Required
+	@ManyToOne
+	private Ubigeo ubigeo;
 	
-
+	@Column(length=100,nullable=false)
+	private String direccioncompleta;
+/*
 	public Distrito getDistrito() {
 		return distrito;
 	}
@@ -36,37 +29,21 @@ public class Direccion {
 	public void setDistrito(Distrito distrito) {
 		this.distrito = distrito;
 	}
-
-	public String getCalle() {
-		return this.calle;
+*/
+	public String getDireccioncompleta() {
+		return direccioncompleta;
 	}
 
-	public void setCalle(String calle) {
-		this.calle = calle;
+	public void setDireccioncompleta(String direccioncompleta) {
+		this.direccioncompleta = direccioncompleta;
 	}
 
-	public String getLote() {
-		return this.lote;
+	public Ubigeo getUbigeo() {
+		return ubigeo;
 	}
 
-	public void setLote(String lote) {
-		this.lote = lote;
-	}
-
-	public String getNumero() {
-		return this.numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
-	public String getUrbanizacion() {
-		return this.urbanizacion;
-	}
-
-	public void setUrbanizacion(String urbanizacion) {
-		this.urbanizacion = urbanizacion;
+	public void setUbigeo(Ubigeo ubigeo) {
+		this.ubigeo = ubigeo;
 	}
 
 }
