@@ -17,15 +17,6 @@ public class Tienda extends Identificable {
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
 
-	//bi-directional many-to-one association to Distrito
-	/*
-	@ManyToOne(fetch=FetchType.LAZY)
-	@DescriptionsList
-	private Distrito distrito;
-
-	@Column(length=50,nullable=false)
-	private String calle;
-*/
 	@Required
 	@NoFrame @Embedded
 	private Direccion direccion;
@@ -105,15 +96,7 @@ public class Tienda extends Identificable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-/*
-	public Distrito getDistrito() {
-		return this.distrito;
-	}
 
-	public void setDistrito(Distrito distrito) {
-		this.distrito = distrito;
-	}
-*/
 	public Empresa getEmpresa() {
 		return this.empresa;
 	}

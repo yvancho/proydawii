@@ -2,6 +2,8 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
+import org.openxava.annotations.*;
+
 
 /**
  * The persistent class for the direccion database table.
@@ -9,27 +11,17 @@ import javax.persistence.*;
  */
 @Embeddable
 public class Direccion {
-	/*
+	
+	
 	@Required
-	@ManyToOne
-	@DescriptionsList
-	private Distrito distrito;
-*/
-	//@Required
+	@NoCreate
 	@ManyToOne
 	private Ubigeo ubigeo;
 	
+	@Required
 	@Column(length=100,nullable=false)
 	private String direccioncompleta;
-/*
-	public Distrito getDistrito() {
-		return distrito;
-	}
 
-	public void setDistrito(Distrito distrito) {
-		this.distrito = distrito;
-	}
-*/
 	public String getDireccioncompleta() {
 		return direccioncompleta;
 	}
@@ -38,6 +30,7 @@ public class Direccion {
 		this.direccioncompleta = direccioncompleta;
 	}
 
+	
 	public Ubigeo getUbigeo() {
 		return ubigeo;
 	}

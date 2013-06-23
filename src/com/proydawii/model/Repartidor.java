@@ -18,6 +18,10 @@ public class Repartidor extends Identificable {
 
 	private String apellido;
 
+	@Required
+	@NoFrame @Embedded
+	private Direccion direccion;
+	
 	@Stereotype("EMAIL")
 	private String email;
 
@@ -38,6 +42,14 @@ public class Repartidor extends Identificable {
 
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
+	}
+
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
 	}
 
 	public String getApellido() {

@@ -1,5 +1,7 @@
 package com.proydawii.model;
 
+import java.util.*;
+
 import javax.persistence.*;
 
 
@@ -13,8 +15,8 @@ public class Departamento extends Identificable {
 	private String descripcion;
 
 	//bi-directional many-to-one association to Provincia
-	//@OneToMany(mappedBy="departamento")
-	//private List<Provincia> provincias;
+	@OneToMany(mappedBy="departamento")
+	private Collection<Provincia> provincias = new ArrayList<Provincia>();
 
 	public String getDescripcion() {
 		return this.descripcion;
@@ -24,12 +26,13 @@ public class Departamento extends Identificable {
 		this.descripcion = descripcion;
 	}
 
-	/*public List<Provincia> getProvincias() {
-		return this.provincias;
+	public Collection<Provincia> getProvincias() {
+		return provincias;
 	}
 
-	public void setProvincias(List<Provincia> provincias) {
+	public void setProvincias(Collection<Provincia> provincias) {
 		this.provincias = provincias;
 	}
-*/
+
+
 }
