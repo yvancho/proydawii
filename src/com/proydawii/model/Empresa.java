@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.util.*;
+
 import java.util.*;
 
 
@@ -23,18 +25,9 @@ public class Empresa extends Identificable {
 	@Column(length=11,nullable=false,unique=true)
 	private String ruc;
 
-	@Required
-	@NoFrame @Embedded
+	@Embedded @Required @NoFrame 	
 	private Direccion direccion;
-
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
+	
 	@Stereotype("EMAIL")
 	private String email;
 
@@ -53,6 +46,22 @@ public class Empresa extends Identificable {
 	//bi-directional many-to-one association to Tienda
 	@OneToMany(mappedBy="empresa", cascade=CascadeType.ALL)
 	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
+
+	public String getRuc() {
+		return this.ruc;
+	}
+
+	public void setRuc(String ruc) {
+		this.ruc = ruc;
+	}
+
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
 
 	public byte[] getFoto() {
 		return foto;
@@ -103,14 +112,6 @@ public class Empresa extends Identificable {
 	}
 
 	
-
-	public String getRuc() {
-		return this.ruc;
-	}
-
-	public void setRuc(String ruc) {
-		this.ruc = ruc;
-	}
 
 	public String getTelefono() {
 		return this.telefono;

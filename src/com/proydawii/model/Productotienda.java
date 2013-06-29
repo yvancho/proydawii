@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.util.*;
+
 import java.math.BigDecimal;
 
 @Entity

@@ -1,4 +1,4 @@
-package com.proydawii.model;
+package com.proydawii.util;
 
 import javax.persistence.*;
 

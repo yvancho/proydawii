@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.proydawii.util.*;
+
 
 /**
  * The persistent class for the departamento database table.

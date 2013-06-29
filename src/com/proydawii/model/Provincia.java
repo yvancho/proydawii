@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.util.*;
+
 @Entity
 public class Provincia extends Identificable {
 	

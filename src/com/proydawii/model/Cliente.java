@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.util.*;
+
 
 /**
  * The persistent class for the cliente database table.
@@ -14,10 +16,14 @@ import org.openxava.annotations.*;
 	  members="id, nombre, apellido")
 public class Cliente extends Identificable {
 	
+	@ManyToOne
+	@DescriptionsList
+	private TipoDocumento tipodocumento;
+	
+	@Column(length=20,nullable=false)
 	@Required
-	@Column(length=8,nullable=false,unique=true)
-	private String dni;
-
+	private String nrodocid;
+	
 	@Required
 	@Column(nullable=false)
 	private String nombre;
@@ -49,6 +55,22 @@ public class Cliente extends Identificable {
 	@Stereotype("FOTO")
 	private byte[] foto;
 
+	public TipoDocumento getTipodocumento() {
+		return tipodocumento;
+	}
+
+	public void setTipodocumento(TipoDocumento tipodocumento) {
+		this.tipodocumento = tipodocumento;
+	}
+
+	public String getNrodocid() {
+		return nrodocid;
+	}
+
+	public void setNrodocid(String nrodocid) {
+		this.nrodocid = nrodocid;
+	}
+
 	public byte[] getFoto() {
 		return foto;
 	}
@@ -71,14 +93,6 @@ public class Cliente extends Identificable {
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-
-	public String getDni() {
-		return this.dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
 	}
 
 	public String getEmail() {

@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.util.*;
+
 import java.util.*;
 
 
@@ -39,8 +41,8 @@ public class Tienda extends Identificable {
 
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne(fetch=FetchType.LAZY)
-	private Empresa empresa;
-
+	private Empresa empresa;	
+	
 	public Direccion getDireccion() {
 		return direccion;
 	}

@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.util.*;
+
 /**
  * The persistent class for the repartidor database table.
  * 
@@ -36,14 +38,14 @@ public class Repartidor extends Identificable {
 	@Stereotype("FOTO")
 	private byte[] foto;
 
-	public byte[] getFoto() {
-		return foto;
+	public String getDni() {
+		return this.dni;
 	}
 
-	public void setFoto(byte[] foto) {
-		this.foto = foto;
-	}
-
+	public void setDni(String dni) {
+		this.dni = dni;
+	}	
+	
 	public Direccion getDireccion() {
 		return direccion;
 	}
@@ -52,20 +54,20 @@ public class Repartidor extends Identificable {
 		this.direccion = direccion;
 	}
 
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
 	public String getApellido() {
 		return this.apellido;
 	}
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-
-	public String getDni() {
-		return this.dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
 	}
 
 	public String getEmail() {

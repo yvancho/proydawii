@@ -2,6 +2,8 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
+import com.proydawii.util.*;
+
 
 /**
  * The persistent class for the estadoregistropedido database table.
