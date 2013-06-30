@@ -1,7 +1,9 @@
 package com.proydawii.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
+import org.hibernate.validator.Min;
 import org.openxava.annotations.*;
 
 import com.proydawii.util.*;
@@ -20,16 +22,16 @@ public class Cliente extends Identificable {
 	@DescriptionsList
 	private TipoDocumento tipodocumento;
 	
-	@Column(length=20,nullable=false)
+	@Column(length=20,nullable=false,unique=true)
 	@Required
 	private String nrodocid;
 	
 	@Required
-	@Column(nullable=false)
+	@Column(length=45,unique=false,nullable=false)
 	private String nombre;
 
 	@Required
-	@Column(nullable=false)
+	@Column(length=45,unique=false,nullable=false)
 	private String apellido;
 
 	@Required
@@ -43,11 +45,17 @@ public class Cliente extends Identificable {
 
 	@Required
 	@Stereotype("TELEPHONE")
-	@Column(nullable=false)
-	private String telefono;
+	@Column(length=10,nullable=true)
+	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
+	private String nrotelefonofijo;
+	
+	@Required
+	@Stereotype("TELEPHONE")
+	@Column(length=9,nullable=true)
+	@Size(min=9,message="Ingrese un nro. de celular válido por favor.")
+	private String nrocelular;
 
 	@Required
-	//bi-directional many-to-one association to Tipocliente
 	@ManyToOne(fetch=FetchType.LAZY)
 	@DescriptionsList
 	private Tipocliente tipocliente;
@@ -71,16 +79,20 @@ public class Cliente extends Identificable {
 		this.nrodocid = nrodocid;
 	}
 
-	public byte[] getFoto() {
-		return foto;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setFoto(byte[] foto) {
-		this.foto = foto;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getApellido() {
-		return this.apellido;
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 
 	public Direccion getDireccion() {
@@ -91,44 +103,46 @@ public class Cliente extends Identificable {
 		this.direccion = direccion;
 	}
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getNombre() {
-		return this.nombre;
+	public String getNrotelefonofijo() {
+		return nrotelefonofijo;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNrotelefonofijo(String nrotelefonofijo) {
+		this.nrotelefonofijo = nrotelefonofijo;
 	}
 
-	public String getTelefono() {
-		return this.telefono;
+	public String getNrocelular() {
+		return nrocelular;
 	}
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setNrocelular(String nrocelular) {
+		this.nrocelular = nrocelular;
 	}
 
 	public Tipocliente getTipocliente() {
-		return this.tipocliente;
+		return tipocliente;
 	}
 
 	public void setTipocliente(Tipocliente tipocliente) {
 		this.tipocliente = tipocliente;
 	}
 
+	public byte[] getFoto() {
+		return foto;
+	}
 
-	
-	
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
+		
 
 }

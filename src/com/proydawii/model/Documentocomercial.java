@@ -19,7 +19,7 @@ import java.util.*;
 		+ "estadoregistropedido," + "tienda; " + "data {" + "cliente;"
 		+ "detallepedidos;" + "montos[" + "porcentajeigv, " + "montoBase,"
 		+ "igv," + "montoTotal" + "];" + "observaciones" + "}")
-public class Pedido {
+public class Documentocomercial {
 
 	@Id
 	@DefaultValueCalculator(value = SiguienteIdPorYearCalculator.class)
@@ -50,9 +50,9 @@ public class Pedido {
 	private BigDecimal monto;
 
 	// bi-directional many-to-one association to Detallepedido
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	@ListProperties("producto.id," + "producto.descripcion," + "cantidad,"
-			+ "producto.precio," + "importe,producto.tienda.descripcion")
+	@OneToMany(mappedBy = "doccom", cascade = CascadeType.ALL)
+	@ListProperties("productotienda.id," + "productotienda.descripcion," + "cantidad,"
+			+ "productotienda.precio," + "importe, productotienda.tienda.descripcion")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 
 	@Stereotype("TEXTO_GRANDE")

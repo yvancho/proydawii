@@ -1,6 +1,7 @@
 package com.proydawii.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.openxava.annotations.*;
 
@@ -13,11 +14,20 @@ import com.proydawii.util.*;
 @Entity
 public class Repartidor extends Identificable {
 
-	@Column(length = 8, unique = true)
-	private String dni;
-
+	@ManyToOne
+	@DescriptionsList
+	private TipoDocumento tipodocumento;
+	
+	@Column(length=20,nullable=false,unique=true)
+	@Required
+	private String nrodocid;
+	
+	@Required
+	@Column(length=45,unique=false,nullable=false)
 	private String nombre;
 
+	@Required
+	@Column(length=45,unique=false,nullable=false)
 	private String apellido;
 
 	@Required
@@ -27,8 +37,17 @@ public class Repartidor extends Identificable {
 	@Stereotype("EMAIL")
 	private String email;
 
+	@Required
 	@Stereotype("TELEPHONE")
-	private String telefono;
+	@Column(length=10,nullable=true)
+	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
+	private String nrotelefonofijo;
+	
+	@Required
+	@Stereotype("TELEPHONE")
+	@Column(length=9,nullable=true)
+	@Size(min=9,message="Ingrese un nro. de celular válido por favor.")
+	private String nrocelular;
 
 	// bi-directional many-to-one association to Tienda
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -38,20 +57,76 @@ public class Repartidor extends Identificable {
 	@Stereotype("FOTO")
 	private byte[] foto;
 
-	public String getDni() {
-		return this.dni;
+	public TipoDocumento getTipodocumento() {
+		return tipodocumento;
 	}
 
-	public void setDni(String dni) {
-		this.dni = dni;
-	}	
-	
+	public void setTipodocumento(TipoDocumento tipodocumento) {
+		this.tipodocumento = tipodocumento;
+	}
+
+	public String getNrodocid() {
+		return nrodocid;
+	}
+
+	public void setNrodocid(String nrodocid) {
+		this.nrodocid = nrodocid;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
 	public Direccion getDireccion() {
 		return direccion;
 	}
 
 	public void setDireccion(Direccion direccion) {
 		this.direccion = direccion;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNrotelefonofijo() {
+		return nrotelefonofijo;
+	}
+
+	public void setNrotelefonofijo(String nrotelefonofijo) {
+		this.nrotelefonofijo = nrotelefonofijo;
+	}
+
+	public String getNrocelular() {
+		return nrocelular;
+	}
+
+	public void setNrocelular(String nrocelular) {
+		this.nrocelular = nrocelular;
+	}
+
+	public Tienda getTienda() {
+		return tienda;
+	}
+
+	public void setTienda(Tienda tienda) {
+		this.tienda = tienda;
 	}
 
 	public byte[] getFoto() {
@@ -61,45 +136,7 @@ public class Repartidor extends Identificable {
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}
-
-	public String getApellido() {
-		return this.apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getTelefono() {
-		return this.telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
-	public Tienda getTienda() {
-		return this.tienda;
-	}
-
-	public void setTienda(Tienda tienda) {
-		this.tienda = tienda;
-	}
+	
+	
 
 }

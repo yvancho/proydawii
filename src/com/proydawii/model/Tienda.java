@@ -1,6 +1,7 @@
 package com.proydawii.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.openxava.annotations.*;
 
@@ -24,8 +25,10 @@ public class Tienda extends Identificable {
 	private Direccion direccion;
 	
 	@Required
-	@Stereotype("TELEFONO")
-	private String telefono;
+	@Stereotype("TELEPHONE")
+	@Column(length=10,nullable=true)
+	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
+	private String nrotelefonofijo;
 
 	//bi-directional many-to-one association to Productotienda
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
@@ -37,7 +40,7 @@ public class Tienda extends Identificable {
 
 	//bi-directional many-to-one association to Pedido
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
-	private Collection<Pedido> pedidos=new ArrayList<Pedido>();
+	private Collection<Documentocomercial> doccoms=new ArrayList<Documentocomercial>();
 
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -67,36 +70,28 @@ public class Tienda extends Identificable {
 		this.repartidores = repartidores;
 	}
 
-	public Collection<Pedido> getPedidos() {
-		return pedidos;
+	public Collection<Documentocomercial> getDoccoms() {
+		return doccoms;
 	}
 
-	public void setPedidos(Collection<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-/*
-	public String getCalle() {
-		return this.calle;
+	public void setDoccoms(Collection<Documentocomercial> doccoms) {
+		this.doccoms = doccoms;
 	}
 
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-*/
 	public String getDescripcion() {
 		return this.descripcion;
 	}
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}	
+
+	public String getNrotelefonofijo() {
+		return nrotelefonofijo;
 	}
 
-	public String getTelefono() {
-		return this.telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setNrotelefonofijo(String nrotelefonofijo) {
+		this.nrotelefonofijo = nrotelefonofijo;
 	}
 
 	public Empresa getEmpresa() {

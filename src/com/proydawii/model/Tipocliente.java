@@ -12,21 +12,9 @@ import com.proydawii.util.*;
 @Entity
 public class Tipocliente extends Identificable {
 	
-
+	@Column(length=20,unique=true,nullable=false)
 	private String descripcion;
 
-	//bi-directional many-to-one association to Cliente
-	/*@OneToMany(mappedBy="tipocliente")
-	private Collection<Cliente> clientes = new ArrayList<Cliente>();
-
-	public Collection<Cliente> getClientes() {
-		return clientes;
-	}
-
-	public void setClientes(Collection<Cliente> clientes) {
-		this.clientes = clientes;
-	}
-*/
 	public String getDescripcion() {
 		return this.descripcion;
 	}

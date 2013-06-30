@@ -13,15 +13,16 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-@View(members = "producto; cantidad, preciounitario, importe; pedido")
+@View(members = "productotienda; cantidad, preciounitario, importe; doccom")
 public class Detallepedido extends Identificable {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@ReferenceView("Simple")
 	@NoFrame
-	private Productotienda producto;
+	private Productotienda productotienda;
 
-	@DefaultValueCalculator(value = PrecioPorUnidad.class, properties = @PropertyValue(name = "productoId", from = "producto.id"))
+	@DefaultValueCalculator(value = PrecioPorUnidad.class, 
+			properties = @PropertyValue(name = "productoId", from = "productotienda.id"))
 	@Stereotype("DINERO")
 	private BigDecimal preciounitario;
 
@@ -29,14 +30,14 @@ public class Detallepedido extends Identificable {
 
 	// bi-directional many-to-one association to Pedido
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Pedido pedido;
+	private Documentocomercial doccom;	
 
-	public Productotienda getProducto() {
-		return producto;
+	public Productotienda getProductotienda() {
+		return productotienda;
 	}
 
-	public void setProducto(Productotienda producto) {
-		this.producto = producto;
+	public void setProductotienda(Productotienda productotienda) {
+		this.productotienda = productotienda;
 	}
 
 	public BigDecimal getPreciounitario() {
@@ -58,41 +59,41 @@ public class Detallepedido extends Identificable {
 		this.cantidad = cantidad;
 	}
 
-	public Pedido getPedido() {
-		return this.pedido;
+	public Documentocomercial getDoccom() {
+		return doccom;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setDoccom(Documentocomercial doccom) {
+		this.doccom = doccom;
 	}
 
 	// PROPIEDADES CALCULADAS
 
 	@Stereotype("MONEY")
-	@Depends("producto.id, cantidad")
+	@Depends("productotienda.id, cantidad")
 	public BigDecimal getImporte() {
-		return new BigDecimal(cantidad).multiply(producto.getPrecio());
+		return new BigDecimal(cantidad).multiply(productotienda.getPrecio());
 	}
 
 	// METODOS DE RETRO-LLAMADA
 	@PrePersist
 	private void onPersist() {
-		getPedido().getDetallepedidos().add(this);
-		getPedido().recalculateMonto();
+		getDoccom().getDetallepedidos().add(this);
+		getDoccom().recalculateMonto();
 	}
 
 	@PreUpdate
 	private void onUpdate() {
-		getPedido().recalculateMonto();
+		getDoccom().recalculateMonto();
 	}
 
 	@PreRemove
 	private void onRemove() {
-		if (getPedido().isRemoving()) {
+		if (getDoccom().isRemoving()) {
 			return;
 		}
-		getPedido().getDetallepedidos().remove(this);
-		getPedido().recalculateMonto();
+		getDoccom().getDetallepedidos().remove(this);
+		getDoccom().recalculateMonto();
 	}
 
 }
