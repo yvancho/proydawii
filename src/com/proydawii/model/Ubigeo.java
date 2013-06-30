@@ -4,50 +4,27 @@ import javax.persistence.*;
 
 import com.proydawii.util.*;
 
-
-/**
- * The persistent class for the ubigeo database table.
- * 
- */
 @Entity
-@Table(name="ubigeo")
-public class Ubigeo extends Identificable {
-
-	@Column(name="cod_dep", length=255)
+public class Ubigeo extends Identificable{
+	
+	@Column(name="cod_dep", length=2, nullable=false)
 	private String coddep;
 
-	@Column(name="cod_dis", length=255)
-	private String coddis;
-
-	@Column(name="cod_pro", length=255)
+	@Column(name="cod_pro", length=4, nullable=false)
 	private String codpro;
 
-	@Column(name="nom_dep", length=255)
+	@Column(name="cod_dis", length=6, nullable=false)
+	private String coddis;
+
+	@Column(name="nom_dep", length=20, nullable=false)
 	private String nomdep;
 
-	@Column(name="nom_dist", length=255)
+	@Column(name="nom_dist", length=40, nullable=false)
 	private String nomdist;
 
-	@Column(name="nom_prov", length=255)
+	@Column(name="nom_prov", length=40, nullable=false)
 	private String nomprov;
 
-	/*
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="ubigeo")
-	private Collection<Cliente> clientes = new ArrayList<Cliente>();
-
-	//bi-directional many-to-one association to Empresa
-	@OneToMany(mappedBy="ubigeo")
-	private Collection<Empresa> empresas = new ArrayList<Empresa>();
-
-	//bi-directional many-to-one association to Repartidor
-	@OneToMany(mappedBy="ubigeo")
-	private Collection<Repartidor> repartidores = new ArrayList<Repartidor>();
-
-	//bi-directional many-to-one association to Tienda
-	@OneToMany(mappedBy="ubigeo")
-	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
-*/
 	public String getCoddep() {
 		return coddep;
 	}
@@ -56,20 +33,20 @@ public class Ubigeo extends Identificable {
 		this.coddep = coddep;
 	}
 
-	public String getCoddis() {
-		return coddis;
-	}
-
-	public void setCoddis(String coddis) {
-		this.coddis = coddis;
-	}
-
 	public String getCodpro() {
 		return codpro;
 	}
 
 	public void setCodpro(String codpro) {
 		this.codpro = codpro;
+	}
+
+	public String getCoddis() {
+		return coddis;
+	}
+
+	public void setCoddis(String coddis) {
+		this.coddis = coddis;
 	}
 
 	public String getNomdep() {
@@ -95,6 +72,25 @@ public class Ubigeo extends Identificable {
 	public void setNomprov(String nomprov) {
 		this.nomprov = nomprov;
 	}
+
+	/*
+	//bi-directional many-to-one association to Cliente
+	@OneToMany(mappedBy="ubigeo")
+	private Collection<Cliente> clientes = new ArrayList<Cliente>();
+
+	//bi-directional many-to-one association to Empresa
+	@OneToMany(mappedBy="ubigeo")
+	private Collection<Empresa> empresas = new ArrayList<Empresa>();
+
+	//bi-directional many-to-one association to Repartidor
+	@OneToMany(mappedBy="ubigeo")
+	private Collection<Repartidor> repartidores = new ArrayList<Repartidor>();
+
+	//bi-directional many-to-one association to Tienda
+	@OneToMany(mappedBy="ubigeo")
+	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
+*/
+	
 /*
 	public Collection<Cliente> getClientes() {
 		return clientes;

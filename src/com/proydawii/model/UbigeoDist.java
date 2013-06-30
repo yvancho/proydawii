@@ -16,14 +16,14 @@ public class UbigeoDist implements Serializable {
 	@EmbeddedId
 	private UbigeoDistPK id;
 
-	@Column(name="udi_nombre", length=255)
+	@Column(name="udi_nombre", length=200)
 	private String udinombre;
 
 	//bi-directional many-to-one association to UbigeoProv
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumns({
-		@JoinColumn(name="ud_cod", referencedColumnName="ud_cod", nullable=false, insertable=false, updatable=false),
-		@JoinColumn(name="up_cod", referencedColumnName="up_cod", nullable=false, insertable=false, updatable=false)
+		@JoinColumn(name="up_cod", referencedColumnName="up_cod", nullable=false, insertable=false, updatable=false),
+		@JoinColumn(name="ud_cod", referencedColumnName="ud_cod", nullable=false, insertable=false, updatable=false)
 		})
 	private UbigeoProv ubigeoprov;
 

@@ -18,7 +18,7 @@ public class UbigeoProv implements Serializable {
 	@EmbeddedId
 	private UbigeoProvPK id;
 
-	@Column(name="up_nombre", length=255)
+	@Column(name="up_nombre", length=200)
 	private String upnombre;
 
 	//bi-directional many-to-one association to UbigeoDist
