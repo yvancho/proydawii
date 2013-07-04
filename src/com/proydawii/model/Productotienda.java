@@ -13,8 +13,13 @@ import java.math.BigDecimal;
 	  members = "id, descripcion")
 public class Productotienda extends Identificable {
 	
+	/*
+
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
+
+	@Stereotype("MONEY")
+	private BigDecimal precio;
 
 	@Stereotype("FOTO")
 	private byte[] foto;
@@ -22,24 +27,16 @@ public class Productotienda extends Identificable {
 	@Stereotype("IMAGES_GALLERY")
 	@Column(length = 32)
 	private String masFotos;
+*/
+	//bi-directional many-to-one association to Tienda
+	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
+	private Tienda tienda;
 
 	@Stereotype("MEMO")
 	private String observaciones;
 
-	@Stereotype("MONEY")
-	private BigDecimal precio;
-
-	//bi-directional many-to-one association to Categoriaproducto
-	@ManyToOne(fetch=FetchType.LAZY)
-	@DescriptionsList
-	private Categoriaproducto categoriaproducto;
-
-	//bi-directional many-to-one association to Tienda
-	@ManyToOne(fetch=FetchType.LAZY)
-	@DescriptionsList
-	private Tienda tienda;	
-
-	public byte[] getFoto() {
+	/*public byte[] getFoto() {
 		return foto;
 	}
 
@@ -62,7 +59,7 @@ public class Productotienda extends Identificable {
 	public void setMasFotos(String masFotos) {
 		this.masFotos = masFotos;
 	}
-
+*/
 	public String getObservaciones() {
 		return this.observaciones;
 	}
@@ -71,21 +68,15 @@ public class Productotienda extends Identificable {
 		this.observaciones = observaciones;
 	}
 
-	public BigDecimal getPrecio() {
+	/*public BigDecimal getPrecio() {
 		return this.precio;
 	}
 
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
-	}
+	}*/
 
-	public Categoriaproducto getCategoriaproducto() {
-		return this.categoriaproducto;
-	}
-
-	public void setCategoriaproducto(Categoriaproducto categoriaproducto) {
-		this.categoriaproducto = categoriaproducto;
-	}
+	
 
 	public Tienda getTienda() {
 		return this.tienda;

@@ -13,24 +13,28 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-@View(members = "productotienda; cantidad, preciounitario, importe; doccom")
+//@View(members = "productotienda; cantidad, preciounitario, importe; pedido")
+@View(members = "productotienda; cantidad, preciounitario; pedido")
 public class Detallepedido extends Identificable {
 
+	// bi-directional many-to-one association to Pedido
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Pedido pedido;	
+	
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@ReferenceView("Simple")
 	@NoFrame
 	private Productotienda productotienda;
-
+	
+/*
 	@DefaultValueCalculator(value = PrecioPorUnidad.class, 
 			properties = @PropertyValue(name = "productoId", from = "productotienda.id"))
 	@Stereotype("DINERO")
 	private BigDecimal preciounitario;
-
-	private int cantidad;
-
-	// bi-directional many-to-one association to Pedido
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Documentocomercial doccom;	
+*/
+    @Required
+	@Column(nullable=false,updatable=true)
+	private int cantidad;	
 
 	public Productotienda getProductotienda() {
 		return productotienda;
@@ -40,7 +44,7 @@ public class Detallepedido extends Identificable {
 		this.productotienda = productotienda;
 	}
 
-	public BigDecimal getPreciounitario() {
+	/*public BigDecimal getPreciounitario() {
 		if (this.preciounitario == null) {
 			return BigDecimal.ZERO;
 		}
@@ -49,7 +53,7 @@ public class Detallepedido extends Identificable {
 
 	public void setPreciounitario(BigDecimal preciounitario) {
 		this.preciounitario = preciounitario;
-	}
+	}*/
 
 	public int getCantidad() {
 		return this.cantidad;
@@ -58,17 +62,19 @@ public class Detallepedido extends Identificable {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-
-	public Documentocomercial getDoccom() {
-		return doccom;
-	}
-
-	public void setDoccom(Documentocomercial doccom) {
-		this.doccom = doccom;
-	}
+	
 
 	// PROPIEDADES CALCULADAS
 
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+	
+    /*
 	@Stereotype("MONEY")
 	@Depends("productotienda.id, cantidad")
 	public BigDecimal getImporte() {
@@ -76,24 +82,25 @@ public class Detallepedido extends Identificable {
 	}
 
 	// METODOS DE RETRO-LLAMADA
+	
 	@PrePersist
 	private void onPersist() {
-		getDoccom().getDetallepedidos().add(this);
-		getDoccom().recalculateMonto();
+		getPedido().getDetallepedidos().add(this);
+		getPedido().recalculateMonto();
 	}
 
 	@PreUpdate
 	private void onUpdate() {
-		getDoccom().recalculateMonto();
+		getPedido().recalculateMonto();
 	}
 
 	@PreRemove
 	private void onRemove() {
-		if (getDoccom().isRemoving()) {
+		if (getPedido().isRemoving()) {
 			return;
 		}
-		getDoccom().getDetallepedidos().remove(this);
-		getDoccom().recalculateMonto();
+		getPedido().getDetallepedidos().remove(this);
+		getPedido().recalculateMonto();
 	}
-
+*/
 }

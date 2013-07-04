@@ -1,6 +1,5 @@
 package com.proydawii.model;
 
-import java.io.Serializable;
 import javax.persistence.*;
 
 
@@ -10,8 +9,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="ubigeo_dist")
-public class UbigeoDist implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class UbigeoDist {
+
 
 	@EmbeddedId
 	private UbigeoDistPK id;

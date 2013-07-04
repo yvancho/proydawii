@@ -40,7 +40,7 @@ public class Tienda extends Identificable {
 
 	//bi-directional many-to-one association to Pedido
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
-	private Collection<Documentocomercial> doccoms=new ArrayList<Documentocomercial>();
+	private Collection<Pedido> doccoms=new ArrayList<Pedido>();
 
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -70,11 +70,11 @@ public class Tienda extends Identificable {
 		this.repartidores = repartidores;
 	}
 
-	public Collection<Documentocomercial> getDoccoms() {
+	public Collection<Pedido> getDoccoms() {
 		return doccoms;
 	}
 
-	public void setDoccoms(Collection<Documentocomercial> doccoms) {
+	public void setDoccoms(Collection<Pedido> doccoms) {
 		this.doccoms = doccoms;
 	}
 

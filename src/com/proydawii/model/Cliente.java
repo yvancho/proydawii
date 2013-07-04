@@ -3,7 +3,6 @@ package com.proydawii.model;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import org.hibernate.validator.Min;
 import org.openxava.annotations.*;
 
 import com.proydawii.util.*;
@@ -18,6 +17,7 @@ import com.proydawii.util.*;
 	  members="id, nombre, apellido")
 public class Cliente extends Identificable {
 	
+	@Required @NoCreate @NoModify
 	@ManyToOne
 	@DescriptionsList
 	private TipoDocumento tipodocumento;
@@ -33,10 +33,11 @@ public class Cliente extends Identificable {
 	@Required
 	@Column(length=45,unique=false,nullable=false)
 	private String apellido;
-
-	@Required
-	@NoFrame @Embedded
-	private Direccion direccion;
+	
+	@Required @NoCreate @NoModify
+	@ManyToOne
+	@DescriptionsList
+	private Generopersona genero;
 
 	@Required
 	@Column(nullable=false,length=50,unique=true)
@@ -44,16 +45,27 @@ public class Cliente extends Identificable {
 	private String email;
 
 	@Required
-	@Stereotype("TELEPHONE")
-	@Column(length=10,nullable=true)
-	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
-	private String nrotelefonofijo;
+	@Column(nullable=false,length=20,unique=true)
+	private String loginnombre;
+	
+	@Required
+	@Stereotype("PASSWORD")
+	private String loginclave;
 	
 	@Required
 	@Stereotype("TELEPHONE")
 	@Column(length=9,nullable=true)
 	@Size(min=9,message="Ingrese un nro. de celular válido por favor.")
 	private String nrocelular;
+
+	@Stereotype("TELEPHONE")
+	@Column(length=10,nullable=true)
+	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
+	private String nrotelefonofijo;
+
+	@Required
+	@NoFrame @Embedded
+	private Direccion direccion;
 
 	@Required
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -95,6 +107,14 @@ public class Cliente extends Identificable {
 		this.apellido = apellido;
 	}
 
+	public Generopersona getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Generopersona genero) {
+		this.genero = genero;
+	}
+
 	public Direccion getDireccion() {
 		return direccion;
 	}
@@ -109,6 +129,22 @@ public class Cliente extends Identificable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getLoginnombre() {
+		return loginnombre;
+	}
+
+	public void setLoginnombre(String loginnombre) {
+		this.loginnombre = loginnombre;
+	}
+
+	public String getLoginclave() {
+		return loginclave;
+	}
+
+	public void setLoginclave(String loginclave) {
+		this.loginclave = loginclave;
 	}
 
 	public String getNrotelefonofijo() {

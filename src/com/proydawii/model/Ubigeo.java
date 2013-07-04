@@ -7,15 +7,21 @@ import com.proydawii.util.*;
 @Entity
 public class Ubigeo extends Identificable{
 	
-	@Column(name="cod_dep", length=2, nullable=false)
+	@Column(name="cod_pais", length=3, nullable=false)
+	private String codpais;
+	
+	@Column(name="cod_dep", length=5, nullable=false)
 	private String coddep;
 
-	@Column(name="cod_pro", length=4, nullable=false)
+	@Column(name="cod_pro", length=7, nullable=false)
 	private String codpro;
 
-	@Column(name="cod_dis", length=6, nullable=false)
+	@Column(name="cod_dis", length=9, nullable=false)
 	private String coddis;
 
+	@Column(name="nom_pais", length=20, nullable=false)
+	private String nompais;
+	
 	@Column(name="nom_dep", length=20, nullable=false)
 	private String nomdep;
 
@@ -24,6 +30,22 @@ public class Ubigeo extends Identificable{
 
 	@Column(name="nom_prov", length=40, nullable=false)
 	private String nomprov;
+
+	public String getCodpais() {
+		return codpais;
+	}
+
+	public void setCodpais(String codpais) {
+		this.codpais = codpais;
+	}
+
+	public String getNompais() {
+		return nompais;
+	}
+
+	public void setNompais(String nompais) {
+		this.nompais = nompais;
+	}
 
 	public String getCoddep() {
 		return coddep;

@@ -5,6 +5,7 @@ import javax.persistence.*;
 import org.hibernate.validator.*;
 //import org.hibernate.validator.*;
 import org.openxava.annotations.*;
+
 import com.proydawii.calculators.*;
 
 import java.math.*;
@@ -15,59 +16,60 @@ import java.util.*;
  * 
  */
 @Entity
-@View(members = "id," + "fechahoraentrada," + "fechahorasalida,"
-		+ "estadoregistropedido," + "tienda; " + "data {" + "cliente;"
-		+ "detallepedidos;" + "montos[" + "porcentajeigv, " + "montoBase,"
-		+ "igv," + "montoTotal" + "];" + "observaciones" + "}")
-public class Documentocomercial {
+@View(members = "id," + "fechahoraregistro,fechahorasalida,fechahoraentrada,"
+		+ "estadoregistropedido," + "tienda; " + 
+		"data {cliente;detallepedidos;observaciones}")
+		/*"montos[" + "porcentajeigv, " + "montoBase,"
+		+ "igv," + "montoTotal" + "];"+ */
+		
+public class Pedido {
 
 	@Id
 	@DefaultValueCalculator(value = SiguienteIdPorYearCalculator.class)
 	@ReadOnly
 	private int id;
 
+	@Hidden
 	@Stereotype("DATETIME")
-	private Date fechahoraentrada;
+	private Date fechahoraregistro;
 
 	@Stereotype("DATETIME")
 	private Date fechahorasalida;
-
-	// bi-directional many-to-one association to Tienda
-	@ManyToOne(fetch = FetchType.LAZY)
-	@DescriptionsList
-	private Tienda tienda;
-
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@ReferenceView("Simple")
-	private Cliente cliente;
-
-	@Digits(integerDigits = 2, fractionalDigits = 0)
-	@Required
-	@DefaultValueCalculator(PorcentajeIgvCalculator.class)
-	private BigDecimal porcentajeigv;
-
-	@Stereotype("MONEY")
-	private BigDecimal monto;
-
-	// bi-directional many-to-one association to Detallepedido
-	@OneToMany(mappedBy = "doccom", cascade = CascadeType.ALL)
-	@ListProperties("productotienda.id," + "productotienda.descripcion," + "cantidad,"
-			+ "productotienda.precio," + "importe, productotienda.tienda.descripcion")
-	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
-
-	@Stereotype("TEXTO_GRANDE")
-	private String observaciones;
+	
+	@Stereotype("DATETIME")
+	private Date fechahoraentrada;
 
 	// bi-directional many-to-one association to Estadoregistropedido
 	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Estadoregistropedido estadoregistropedido;
 
-	@Transient
-	private boolean removing = false;
+	// bi-directional many-to-one association to Tienda
+	@ManyToOne(fetch = FetchType.LAZY)
+	@DescriptionsList
+	private Tienda tienda;
 
-	@Hidden
-	private boolean deleted;
+	// bi-directional many-to-one association to Detallepedido
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	//@ListProperties("productotienda.id," + "productotienda.descripcion," + "cantidad,"
+		//	+ "productotienda.precio," + "importe, productotienda.tienda.descripcion")
+	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ReferenceView("Simple")
+	private Cliente cliente;
+	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private Collection<Factura> facturas = new ArrayList<Factura>();
+
+	@Stereotype("TEXTO_GRANDE")
+	private String observaciones;	
+
+	//@Transient
+	//private boolean removing = false;
+
+  //@Hidden
+	//private boolean deleted;
 
 	public int getId() {
 		return id;
@@ -76,7 +78,7 @@ public class Documentocomercial {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+/*
 	public BigDecimal getPorcentajeigv() {
 		if (porcentajeigv == null) {
 			return BigDecimal.ZERO;
@@ -94,7 +96,7 @@ public class Documentocomercial {
 
 	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
-	}
+	}*/
 
 	public Collection<Detallepedido> getDetallepedidos() {
 		return detallepedidos;
@@ -118,6 +120,22 @@ public class Documentocomercial {
 
 	public void setFechahorasalida(Date fechahorasalida) {
 		this.fechahorasalida = fechahorasalida;
+	}
+
+	public Date getFechahoraregistro() {
+		return fechahoraregistro;
+	}
+
+	public void setFechahoraregistro(Date fechahoraregistro) {
+		this.fechahoraregistro = fechahoraregistro;
+	}
+
+	public Collection<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(Collection<Factura> facturas) {
+		this.facturas = facturas;
 	}
 
 	public String getObservaciones() {
@@ -156,6 +174,7 @@ public class Documentocomercial {
 	// MONTOS CALCULADOS
 
 	// Monto base
+	/*
 	@Stereotype("MONEY")
 	public BigDecimal getMontoBase() {
 		BigDecimal resultado = new BigDecimal("0.00");
@@ -182,10 +201,10 @@ public class Documentocomercial {
 
 	public void recalculateMonto() {
 		setMonto(getMontoTotal());
-	}
+	}*/
 
 	// RETROLLAMADAS
-
+/*
 	public boolean isDeleted() {
 		return deleted;
 	}
@@ -207,5 +226,5 @@ public class Documentocomercial {
 	private void unmarkRemoving() {
 		this.removing = false;
 	}
-
+*/
 }
