@@ -1,9 +1,13 @@
 package com.proydawii.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.openxava.annotations.*;
 
+import com.proydawii.util.*;
+
+import java.math.*;
 import java.util.*;
 
 
@@ -17,27 +21,24 @@ public class Tienda extends Identificable {
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
 
-	//bi-directional many-to-one association to Distrito
-	/*
-	@ManyToOne(fetch=FetchType.LAZY)
-	@DescriptionsList
-	private Distrito distrito;
-
-	@Column(length=50,nullable=false)
-	private String calle;
-*/
 	@Required
 	@NoFrame @Embedded
 	private Direccion direccion;
 	
 	@Required
-	@Stereotype("TELEFONO")
-	private String telefono;
+	@Stereotype("TELEPHONE")
+	@Column(length=10,nullable=true)
+	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
+	private String nrotelefonofijo;
 
 	//bi-directional many-to-one association to Productotienda
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
-	private Collection<Productotienda> productotiendas = new ArrayList<Productotienda>();
+	private Collection<Productotienda> productos = new ArrayList<Productotienda>();
 
+	@Stereotype("DINERO")
+	@Column(precision=10, scale=2)
+	private BigDecimal porcimpconsumo;
+	
 	//bi-directional many-to-one association to Repartidor
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
 	private Collection<Repartidor> repartidores = new ArrayList<Repartidor>();
@@ -48,7 +49,31 @@ public class Tienda extends Identificable {
 
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne(fetch=FetchType.LAZY)
-	private Empresa empresa;
+	private Empresacomercial empresacomercial;
+
+	public BigDecimal getPorcimpconsumo() {
+		return porcimpconsumo;
+	}
+
+	public void setPorcimpconsumo(BigDecimal porcimpconsumo) {
+		this.porcimpconsumo = porcimpconsumo;
+	}
+
+	public Collection<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public Collection<Productotienda> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(Collection<Productotienda> productos) {
+		this.productos = productos;
+	}
+
+	public void setPedidos(Collection<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 
 	public Direccion getDireccion() {
 		return direccion;
@@ -58,13 +83,7 @@ public class Tienda extends Identificable {
 		this.direccion = direccion;
 	}
 
-	public Collection<Productotienda> getProductotiendas() {
-		return productotiendas;
-	}
-
-	public void setProductotiendas(Collection<Productotienda> productotiendas) {
-		this.productotiendas = productotiendas;
-	}
+	
 
 	public Collection<Repartidor> getRepartidores() {
 		return repartidores;
@@ -74,52 +93,32 @@ public class Tienda extends Identificable {
 		this.repartidores = repartidores;
 	}
 
-	public Collection<Pedido> getPedidos() {
-		return pedidos;
-	}
+	
 
-	public void setPedidos(Collection<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-/*
-	public String getCalle() {
-		return this.calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-*/
 	public String getDescripcion() {
 		return this.descripcion;
 	}
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}	
+
+	public String getNrotelefonofijo() {
+		return nrotelefonofijo;
 	}
 
-	public String getTelefono() {
-		return this.telefono;
+	public void setNrotelefonofijo(String nrotelefonofijo) {
+		this.nrotelefonofijo = nrotelefonofijo;
 	}
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-/*
-	public Distrito getDistrito() {
-		return this.distrito;
+	public Empresacomercial getEmpresacomercial() {
+		return empresacomercial;
 	}
 
-	public void setDistrito(Distrito distrito) {
-		this.distrito = distrito;
-	}
-*/
-	public Empresa getEmpresa() {
-		return this.empresa;
+	public void setEmpresacomercial(Empresacomercial empresacomercial) {
+		this.empresacomercial = empresacomercial;
 	}
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}
+	
 
 }

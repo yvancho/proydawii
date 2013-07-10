@@ -17,7 +17,7 @@ public class PrecioPorUnidad implements ICalculator {
 	public Object calculate() throws Exception {
 		Productotienda producto = XPersistence.getManager().find(
 				Productotienda.class, productoId);
-		return producto.getPrecio();
+		return 0.0; //producto.getPrecio();
 	}
 
 	public int getProductoId() {

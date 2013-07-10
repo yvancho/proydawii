@@ -2,40 +2,27 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
+import org.openxava.annotations.*;
 
-/**
- * The persistent class for the direccion database table.
- * 
- */
 @Embeddable
 public class Direccion {
-	/*
+		
+	@NoFrame
 	@Required
-	@ManyToOne
-	@DescriptionsList
-	private Distrito distrito;
-*/
-	//@Required
+	@NoCreate
 	@ManyToOne
 	private Ubigeo ubigeo;
 	
-	@Column(length=100,nullable=false)
-	private String direccioncompleta;
-/*
-	public Distrito getDistrito() {
-		return distrito;
+	@Required
+	@Column(length=200)
+	private String direccion;
+	
+	public String getDireccion() {
+		return direccion;
 	}
 
-	public void setDistrito(Distrito distrito) {
-		this.distrito = distrito;
-	}
-*/
-	public String getDireccioncompleta() {
-		return direccioncompleta;
-	}
-
-	public void setDireccioncompleta(String direccioncompleta) {
-		this.direccioncompleta = direccioncompleta;
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public Ubigeo getUbigeo() {

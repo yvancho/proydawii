@@ -2,9 +2,9 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import org.hibernate.validator.*;
 //import org.hibernate.validator.*;
 import org.openxava.annotations.*;
+
 import com.proydawii.calculators.*;
 
 import java.math.*;
@@ -15,10 +15,12 @@ import java.util.*;
  * 
  */
 @Entity
-@View(members = "id," + "fechahoraentrada," + "fechahorasalida,"
-		+ "estadoregistropedido," + "tienda; " + "data {" + "cliente;"
-		+ "detallepedidos;" + "montos[" + "porcentajeigv, " + "montoBase,"
-		+ "igv," + "montoTotal" + "];" + "observaciones" + "}")
+/*@View(members = "id," + "fechahoraregistro,fechahorasalida,fechahoraentrada,"
+		+ "estadoregistropedido," + "tienda; " + 
+		"data {cliente;detallepedidos;observaciones}")
+		"montos[" + "porcentajeigv, " + "montoBase,"
+		+ "igv," + "montoTotal" + "];"+ */
+		
 public class Pedido {
 
 	@Id
@@ -26,48 +28,63 @@ public class Pedido {
 	@ReadOnly
 	private int id;
 
+	@Hidden
 	@Stereotype("DATETIME")
-	private Date fechahoraentrada;
+	private Date fechahoraregistro;
 
 	@Stereotype("DATETIME")
 	private Date fechahorasalida;
+	
+	@Stereotype("DATETIME")
+	private Date fechahoraentrada;
 
 	// bi-directional many-to-one association to Tienda
 	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Tienda tienda;
 
+	// bi-directional many-to-one association to Estadoregistropedido
+	@ManyToOne(fetch = FetchType.LAZY)
+	@DescriptionsList
+	private Estadopedido estadopedido;
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@ReferenceView("Simple")
 	private Cliente cliente;
 
-	@Digits(integerDigits = 2, fractionalDigits = 0)
-	@Required
-	@DefaultValueCalculator(PorcentajeIgvCalculator.class)
-	private BigDecimal porcentajeigv;
-
-	@Stereotype("MONEY")
-	private BigDecimal monto;
-
 	// bi-directional many-to-one association to Detallepedido
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	@ListProperties("producto.id," + "producto.descripcion," + "cantidad,"
-			+ "producto.precio," + "importe,producto.tienda.descripcion")
+	//@ListProperties("productotienda.id," + "productotienda.descripcion," + "cantidad,"
+		//	+ "productotienda.precio," + "importe, productotienda.tienda.descripcion")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
+
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private Collection<Facturacion> facturaciones = new ArrayList<Facturacion>();
+
+	@Stereotype("DINERO")
+	@Column(precision=10, scale=2)
+	private BigDecimal monto;
+	
+	@Column(precision=10)
+	private BigDecimal porcentajeigv;
+
+	@Hidden
+	private byte ultimopedido;
+	
+	@Column(length=50)
+	private String direcciondestino;
+	
+	@Column(length=100)
+	private String referenciadirdestino;
+
+	/*
+	 * Por defecto 0 = activo / 1 = anulado
+	 */
+	@Column(nullable=false, length=1)
+	private String deleted;
 
 	@Stereotype("TEXTO_GRANDE")
 	private String observaciones;
-
-	// bi-directional many-to-one association to Estadoregistropedido
-	@ManyToOne(fetch = FetchType.LAZY)
-	@DescriptionsList
-	private Estadoregistropedido estadoregistropedido;
-
-	@Transient
-	private boolean removing = false;
-
-	@Hidden
-	private boolean deleted;
 
 	public int getId() {
 		return id;
@@ -77,63 +94,44 @@ public class Pedido {
 		this.id = id;
 	}
 
-	public BigDecimal getPorcentajeigv() {
-		if (porcentajeigv == null) {
-			return BigDecimal.ZERO;
-		}
-		return porcentajeigv;
+	public Date getFechahoraregistro() {
+		return fechahoraregistro;
 	}
 
-	public void setPorcentajeigv(BigDecimal porcentajeigv) {
-		this.porcentajeigv = porcentajeigv;
-	}
-
-	public BigDecimal getMonto() {
-		return monto;
-	}
-
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
-
-	public Collection<Detallepedido> getDetallepedidos() {
-		return detallepedidos;
-	}
-
-	public void setDetallepedidos(Collection<Detallepedido> detallepedidos) {
-		this.detallepedidos = detallepedidos;
-	}
-
-	public Date getFechahoraentrada() {
-		return this.fechahoraentrada;
-	}
-
-	public void setFechahoraentrada(Date fechahoraentrada) {
-		this.fechahoraentrada = fechahoraentrada;
+	public void setFechahoraregistro(Date fechahoraregistro) {
+		this.fechahoraregistro = fechahoraregistro;
 	}
 
 	public Date getFechahorasalida() {
-		return this.fechahorasalida;
+		return fechahorasalida;
 	}
 
 	public void setFechahorasalida(Date fechahorasalida) {
 		this.fechahorasalida = fechahorasalida;
 	}
 
-	public String getObservaciones() {
-		return this.observaciones;
+	public Date getFechahoraentrada() {
+		return fechahoraentrada;
 	}
 
-	public void setObservaciones(String observaciones) {
-		this.observaciones = observaciones;
+	public void setFechahoraentrada(Date fechahoraentrada) {
+		this.fechahoraentrada = fechahoraentrada;
 	}
 
 	public Tienda getTienda() {
-		return this.tienda;
+		return tienda;
 	}
 
 	public void setTienda(Tienda tienda) {
 		this.tienda = tienda;
+	}
+
+	public Estadopedido getEstadopedido() {
+		return estadopedido;
+	}
+
+	public void setEstadopedido(Estadopedido estadopedido) {
+		this.estadopedido = estadopedido;
 	}
 
 	public Cliente getCliente() {
@@ -144,18 +142,90 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 
-	public Estadoregistropedido getEstadoregistropedido() {
-		return this.estadoregistropedido;
+	public Collection<Detallepedido> getDetallepedidos() {
+		return detallepedidos;
 	}
 
-	public void setEstadoregistropedido(
-			Estadoregistropedido estadoregistropedido) {
-		this.estadoregistropedido = estadoregistropedido;
+	public void setDetallepedidos(Collection<Detallepedido> detallepedidos) {
+		this.detallepedidos = detallepedidos;
 	}
+
+	public Collection<Facturacion> getFacturaciones() {
+		return facturaciones;
+	}
+
+	public void setFacturaciones(Collection<Facturacion> facturaciones) {
+		this.facturaciones = facturaciones;
+	}
+
+	public BigDecimal getMonto() {
+		return monto;
+	}
+
+	public void setMonto(BigDecimal monto) {
+		this.monto = monto;
+	}
+
+	public BigDecimal getPorcentajeigv() {
+		return porcentajeigv;
+	}
+
+	public void setPorcentajeigv(BigDecimal porcentajeigv) {
+		this.porcentajeigv = porcentajeigv;
+	}
+
+	public byte getUltimopedido() {
+		return ultimopedido;
+	}
+
+	public void setUltimopedido(byte ultimopedido) {
+		this.ultimopedido = ultimopedido;
+	}
+
+	public String getDirecciondestino() {
+		return direcciondestino;
+	}
+
+	public void setDirecciondestino(String direcciondestino) {
+		this.direcciondestino = direcciondestino;
+	}
+
+	public String getReferenciadirdestino() {
+		return referenciadirdestino;
+	}
+
+	public void setReferenciadirdestino(String referenciadirdestino) {
+		this.referenciadirdestino = referenciadirdestino;
+	}
+
+	public String getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+	
+	
+	//@Transient
+	//private boolean removing = false;
+
+  //@Hidden
+	//private boolean deleted;
+
 
 	// MONTOS CALCULADOS
 
 	// Monto base
+	/*
 	@Stereotype("MONEY")
 	public BigDecimal getMontoBase() {
 		BigDecimal resultado = new BigDecimal("0.00");
@@ -182,10 +252,10 @@ public class Pedido {
 
 	public void recalculateMonto() {
 		setMonto(getMontoTotal());
-	}
+	}*/
 
 	// RETROLLAMADAS
-
+/*
 	public boolean isDeleted() {
 		return deleted;
 	}
@@ -207,5 +277,5 @@ public class Pedido {
 	private void unmarkRemoving() {
 		this.removing = false;
 	}
-
+*/
 }

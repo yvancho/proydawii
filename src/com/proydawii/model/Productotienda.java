@@ -4,15 +4,19 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
-import java.math.BigDecimal;
+import com.proydawii.util.*;
 
 @Entity
-@View(name = "Simple", 
-	  members = "id, descripcion")
+//@View(name = "Simple", members = "id")
 public class Productotienda extends Identificable {
 	
+	/*
+
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
+
+	@Stereotype("MONEY")
+	private BigDecimal precio;
 
 	@Stereotype("FOTO")
 	private byte[] foto;
@@ -20,24 +24,35 @@ public class Productotienda extends Identificable {
 	@Stereotype("IMAGES_GALLERY")
 	@Column(length = 32)
 	private String masFotos;
+*/
+	//bi-directional many-to-one association to Tienda
+	@ManyToOne(fetch=FetchType.LAZY)
+	@DescriptionsList
+	private Tienda tienda;
+	
+	@ManyToOne
+	private Productoempresa productoempresa;
 
 	@Stereotype("MEMO")
 	private String observaciones;
 
-	@Stereotype("MONEY")
-	private BigDecimal precio;
+	/*public BigDecimal getPrecio() {
+		return this.precio;
+	}
+	
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
+	}*/
+	
+	public Tienda getTienda() {
+		return this.tienda;
+	}
 
-	//bi-directional many-to-one association to Categoriaproducto
-	@ManyToOne(fetch=FetchType.LAZY)
-	@DescriptionsList
-	private Categoriaproducto categoriaproducto;
+	public void setTienda(Tienda tienda) {
+		this.tienda = tienda;
+	}
 
-	//bi-directional many-to-one association to Tienda
-	@ManyToOne(fetch=FetchType.LAZY)
-	@DescriptionsList
-	private Tienda tienda;	
-
-	public byte[] getFoto() {
+	/*public byte[] getFoto() {
 		return foto;
 	}
 
@@ -60,6 +75,15 @@ public class Productotienda extends Identificable {
 	public void setMasFotos(String masFotos) {
 		this.masFotos = masFotos;
 	}
+*/
+	
+	public Productoempresa getProductoempresa() {
+		return productoempresa;
+	}
+
+	public void setProductoempresa(Productoempresa productoempresa) {
+		this.productoempresa = productoempresa;
+	}
 
 	public String getObservaciones() {
 		return this.observaciones;
@@ -67,30 +91,6 @@ public class Productotienda extends Identificable {
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
-	}
-
-	public BigDecimal getPrecio() {
-		return this.precio;
-	}
-
-	public void setPrecio(BigDecimal precio) {
-		this.precio = precio;
-	}
-
-	public Categoriaproducto getCategoriaproducto() {
-		return this.categoriaproducto;
-	}
-
-	public void setCategoriaproducto(Categoriaproducto categoriaproducto) {
-		this.categoriaproducto = categoriaproducto;
-	}
-
-	public Tienda getTienda() {
-		return this.tienda;
-	}
-
-	public void setTienda(Tienda tienda) {
-		this.tienda = tienda;
 	}
 
 }
