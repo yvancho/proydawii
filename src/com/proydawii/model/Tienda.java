@@ -7,6 +7,7 @@ import org.openxava.annotations.*;
 
 import com.proydawii.util.*;
 
+import java.math.*;
 import java.util.*;
 
 
@@ -32,20 +33,48 @@ public class Tienda extends Identificable {
 
 	//bi-directional many-to-one association to Productotienda
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
-	private Collection<Productotienda> productotiendas = new ArrayList<Productotienda>();
+	private Collection<Productotienda> productos = new ArrayList<Productotienda>();
 
+	@Stereotype("DINERO")
+	@Column(precision=10, scale=2)
+	private BigDecimal porcimpconsumo;
+	
 	//bi-directional many-to-one association to Repartidor
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
 	private Collection<Repartidor> repartidores = new ArrayList<Repartidor>();
 
 	//bi-directional many-to-one association to Pedido
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
-	private Collection<Pedido> doccoms=new ArrayList<Pedido>();
+	private Collection<Pedido> pedidos=new ArrayList<Pedido>();
 
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne(fetch=FetchType.LAZY)
-	private Empresa empresa;	
-	
+	private Empresacomercial empresacomercial;
+
+	public BigDecimal getPorcimpconsumo() {
+		return porcimpconsumo;
+	}
+
+	public void setPorcimpconsumo(BigDecimal porcimpconsumo) {
+		this.porcimpconsumo = porcimpconsumo;
+	}
+
+	public Collection<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public Collection<Productotienda> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(Collection<Productotienda> productos) {
+		this.productos = productos;
+	}
+
+	public void setPedidos(Collection<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
 	public Direccion getDireccion() {
 		return direccion;
 	}
@@ -54,13 +83,7 @@ public class Tienda extends Identificable {
 		this.direccion = direccion;
 	}
 
-	public Collection<Productotienda> getProductotiendas() {
-		return productotiendas;
-	}
-
-	public void setProductotiendas(Collection<Productotienda> productotiendas) {
-		this.productotiendas = productotiendas;
-	}
+	
 
 	public Collection<Repartidor> getRepartidores() {
 		return repartidores;
@@ -70,13 +93,7 @@ public class Tienda extends Identificable {
 		this.repartidores = repartidores;
 	}
 
-	public Collection<Pedido> getDoccoms() {
-		return doccoms;
-	}
-
-	public void setDoccoms(Collection<Pedido> doccoms) {
-		this.doccoms = doccoms;
-	}
+	
 
 	public String getDescripcion() {
 		return this.descripcion;
@@ -94,12 +111,14 @@ public class Tienda extends Identificable {
 		this.nrotelefonofijo = nrotelefonofijo;
 	}
 
-	public Empresa getEmpresa() {
-		return this.empresa;
+	public Empresacomercial getEmpresacomercial() {
+		return empresacomercial;
 	}
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setEmpresacomercial(Empresacomercial empresacomercial) {
+		this.empresacomercial = empresacomercial;
 	}
+
+	
 
 }

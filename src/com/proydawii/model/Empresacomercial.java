@@ -7,6 +7,7 @@ import org.openxava.annotations.*;
 
 import com.proydawii.util.*;
 
+import java.math.*;
 import java.util.*;
 
 
@@ -15,7 +16,7 @@ import java.util.*;
  * 
  */
 @Entity
-public class Empresa extends Identificable {
+public class Empresacomercial extends Identificable {
 	
 	@Column(length=50,nullable=false,unique=true)
 	private String nombre;
@@ -32,24 +33,44 @@ public class Empresa extends Identificable {
 	@Stereotype("EMAIL")
 	private String email;
 
-	@Stereotype("FOTO")
-	private byte[] foto;
-
 	@Required
 	@Stereotype("TELEPHONE")
 	@Column(length=10,nullable=true)
 	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
 	private String nrotelefonofijo;
 	
+	@Stereotype("FOTO")
+	private byte[] foto;
+
+	//bi-directional many-to-one association to Tienda
+	@OneToMany(mappedBy="empresacomercial", cascade=CascadeType.ALL)
+	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
+
+	@Stereotype("DINERO")
+	@Column(precision=10, scale=2)
+	private BigDecimal porcimpconsumo;
+	
 	@Stereotype("WEBURL")
 	private String weburl;
 
 	@Stereotype("MEMO")
-	private String comentarios;
+	private String observaciones;
 
-	//bi-directional many-to-one association to Tienda
-	@OneToMany(mappedBy="empresa", cascade=CascadeType.ALL)
-	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
+	public BigDecimal getPorcimpconsumo() {
+		return porcimpconsumo;
+	}
+
+	public void setPorcimpconsumo(BigDecimal porcimpconsumo) {
+		this.porcimpconsumo = porcimpconsumo;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -115,13 +136,7 @@ public class Empresa extends Identificable {
 		this.weburl = weburl;
 	}
 
-	public String getComentarios() {
-		return comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
+	
 
 	public Collection<Tienda> getTiendas() {
 		return tiendas;

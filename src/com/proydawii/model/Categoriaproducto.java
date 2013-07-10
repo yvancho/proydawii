@@ -9,7 +9,7 @@ import com.proydawii.util.*;
  * 
  */
 @Entity
-public class Tipoproducto extends Identificable {
+public class Categoriaproducto extends Identificable {
 
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;

@@ -6,11 +6,8 @@ import org.openxava.annotations.*;
 
 import com.proydawii.util.*;
 
-import java.math.BigDecimal;
-
 @Entity
-@View(name = "Simple", 
-	  members = "id, descripcion")
+//@View(name = "Simple", members = "id")
 public class Productotienda extends Identificable {
 	
 	/*
@@ -32,9 +29,28 @@ public class Productotienda extends Identificable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@DescriptionsList
 	private Tienda tienda;
+	
+	@ManyToOne
+	private Productoempresa productoempresa;
 
 	@Stereotype("MEMO")
 	private String observaciones;
+
+	/*public BigDecimal getPrecio() {
+		return this.precio;
+	}
+	
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
+	}*/
+	
+	public Tienda getTienda() {
+		return this.tienda;
+	}
+
+	public void setTienda(Tienda tienda) {
+		this.tienda = tienda;
+	}
 
 	/*public byte[] getFoto() {
 		return foto;
@@ -60,30 +76,21 @@ public class Productotienda extends Identificable {
 		this.masFotos = masFotos;
 	}
 */
+	
+	public Productoempresa getProductoempresa() {
+		return productoempresa;
+	}
+
+	public void setProductoempresa(Productoempresa productoempresa) {
+		this.productoempresa = productoempresa;
+	}
+
 	public String getObservaciones() {
 		return this.observaciones;
 	}
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
-	}
-
-	/*public BigDecimal getPrecio() {
-		return this.precio;
-	}
-
-	public void setPrecio(BigDecimal precio) {
-		this.precio = precio;
-	}*/
-
-	
-
-	public Tienda getTienda() {
-		return this.tienda;
-	}
-
-	public void setTienda(Tienda tienda) {
-		this.tienda = tienda;
 	}
 
 }

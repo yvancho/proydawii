@@ -10,7 +10,7 @@ import com.proydawii.util.*;
  * 
  */
 @Entity
-public class Estadoregistropedido extends Identificable{
+public class Estadopedido extends Identificable{
 	
 	@Column(length=20,nullable=false,unique=true)
 	private String descripcion;

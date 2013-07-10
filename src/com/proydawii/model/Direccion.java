@@ -7,6 +7,7 @@ import org.openxava.annotations.*;
 @Embeddable
 public class Direccion {
 		
+	@NoFrame
 	@Required
 	@NoCreate
 	@ManyToOne

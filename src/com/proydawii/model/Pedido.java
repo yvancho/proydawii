@@ -2,7 +2,6 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import org.hibernate.validator.*;
 //import org.hibernate.validator.*;
 import org.openxava.annotations.*;
 
@@ -16,10 +15,10 @@ import java.util.*;
  * 
  */
 @Entity
-@View(members = "id," + "fechahoraregistro,fechahorasalida,fechahoraentrada,"
+/*@View(members = "id," + "fechahoraregistro,fechahorasalida,fechahoraentrada,"
 		+ "estadoregistropedido," + "tienda; " + 
 		"data {cliente;detallepedidos;observaciones}")
-		/*"montos[" + "porcentajeigv, " + "montoBase,"
+		"montos[" + "porcentajeigv, " + "montoBase,"
 		+ "igv," + "montoTotal" + "];"+ */
 		
 public class Pedido {
@@ -39,15 +38,19 @@ public class Pedido {
 	@Stereotype("DATETIME")
 	private Date fechahoraentrada;
 
-	// bi-directional many-to-one association to Estadoregistropedido
-	@ManyToOne(fetch = FetchType.LAZY)
-	@DescriptionsList
-	private Estadoregistropedido estadoregistropedido;
-
 	// bi-directional many-to-one association to Tienda
 	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Tienda tienda;
+
+	// bi-directional many-to-one association to Estadoregistropedido
+	@ManyToOne(fetch = FetchType.LAZY)
+	@DescriptionsList
+	private Estadopedido estadopedido;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ReferenceView("Simple")
+	private Cliente cliente;
 
 	// bi-directional many-to-one association to Detallepedido
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
@@ -55,21 +58,33 @@ public class Pedido {
 		//	+ "productotienda.precio," + "importe, productotienda.tienda.descripcion")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@ReferenceView("Simple")
-	private Cliente cliente;
-	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	private Collection<Factura> facturas = new ArrayList<Factura>();
+	private Collection<Facturacion> facturaciones = new ArrayList<Facturacion>();
+
+	@Stereotype("DINERO")
+	@Column(precision=10, scale=2)
+	private BigDecimal monto;
+	
+	@Column(precision=10)
+	private BigDecimal porcentajeigv;
+
+	@Hidden
+	private byte ultimopedido;
+	
+	@Column(length=50)
+	private String direcciondestino;
+	
+	@Column(length=100)
+	private String referenciadirdestino;
+
+	/*
+	 * Por defecto 0 = activo / 1 = anulado
+	 */
+	@Column(nullable=false, length=1)
+	private String deleted;
 
 	@Stereotype("TEXTO_GRANDE")
-	private String observaciones;	
-
-	//@Transient
-	//private boolean removing = false;
-
-  //@Hidden
-	//private boolean deleted;
+	private String observaciones;
 
 	public int getId() {
 		return id;
@@ -77,49 +92,6 @@ public class Pedido {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-/*
-	public BigDecimal getPorcentajeigv() {
-		if (porcentajeigv == null) {
-			return BigDecimal.ZERO;
-		}
-		return porcentajeigv;
-	}
-
-	public void setPorcentajeigv(BigDecimal porcentajeigv) {
-		this.porcentajeigv = porcentajeigv;
-	}
-
-	public BigDecimal getMonto() {
-		return monto;
-	}
-
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}*/
-
-	public Collection<Detallepedido> getDetallepedidos() {
-		return detallepedidos;
-	}
-
-	public void setDetallepedidos(Collection<Detallepedido> detallepedidos) {
-		this.detallepedidos = detallepedidos;
-	}
-
-	public Date getFechahoraentrada() {
-		return this.fechahoraentrada;
-	}
-
-	public void setFechahoraentrada(Date fechahoraentrada) {
-		this.fechahoraentrada = fechahoraentrada;
-	}
-
-	public Date getFechahorasalida() {
-		return this.fechahorasalida;
-	}
-
-	public void setFechahorasalida(Date fechahorasalida) {
-		this.fechahorasalida = fechahorasalida;
 	}
 
 	public Date getFechahoraregistro() {
@@ -130,28 +102,36 @@ public class Pedido {
 		this.fechahoraregistro = fechahoraregistro;
 	}
 
-	public Collection<Factura> getFacturas() {
-		return facturas;
+	public Date getFechahorasalida() {
+		return fechahorasalida;
 	}
 
-	public void setFacturas(Collection<Factura> facturas) {
-		this.facturas = facturas;
+	public void setFechahorasalida(Date fechahorasalida) {
+		this.fechahorasalida = fechahorasalida;
 	}
 
-	public String getObservaciones() {
-		return this.observaciones;
+	public Date getFechahoraentrada() {
+		return fechahoraentrada;
 	}
 
-	public void setObservaciones(String observaciones) {
-		this.observaciones = observaciones;
+	public void setFechahoraentrada(Date fechahoraentrada) {
+		this.fechahoraentrada = fechahoraentrada;
 	}
 
 	public Tienda getTienda() {
-		return this.tienda;
+		return tienda;
 	}
 
 	public void setTienda(Tienda tienda) {
 		this.tienda = tienda;
+	}
+
+	public Estadopedido getEstadopedido() {
+		return estadopedido;
+	}
+
+	public void setEstadopedido(Estadopedido estadopedido) {
+		this.estadopedido = estadopedido;
 	}
 
 	public Cliente getCliente() {
@@ -162,14 +142,85 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 
-	public Estadoregistropedido getEstadoregistropedido() {
-		return this.estadoregistropedido;
+	public Collection<Detallepedido> getDetallepedidos() {
+		return detallepedidos;
 	}
 
-	public void setEstadoregistropedido(
-			Estadoregistropedido estadoregistropedido) {
-		this.estadoregistropedido = estadoregistropedido;
+	public void setDetallepedidos(Collection<Detallepedido> detallepedidos) {
+		this.detallepedidos = detallepedidos;
 	}
+
+	public Collection<Facturacion> getFacturaciones() {
+		return facturaciones;
+	}
+
+	public void setFacturaciones(Collection<Facturacion> facturaciones) {
+		this.facturaciones = facturaciones;
+	}
+
+	public BigDecimal getMonto() {
+		return monto;
+	}
+
+	public void setMonto(BigDecimal monto) {
+		this.monto = monto;
+	}
+
+	public BigDecimal getPorcentajeigv() {
+		return porcentajeigv;
+	}
+
+	public void setPorcentajeigv(BigDecimal porcentajeigv) {
+		this.porcentajeigv = porcentajeigv;
+	}
+
+	public byte getUltimopedido() {
+		return ultimopedido;
+	}
+
+	public void setUltimopedido(byte ultimopedido) {
+		this.ultimopedido = ultimopedido;
+	}
+
+	public String getDirecciondestino() {
+		return direcciondestino;
+	}
+
+	public void setDirecciondestino(String direcciondestino) {
+		this.direcciondestino = direcciondestino;
+	}
+
+	public String getReferenciadirdestino() {
+		return referenciadirdestino;
+	}
+
+	public void setReferenciadirdestino(String referenciadirdestino) {
+		this.referenciadirdestino = referenciadirdestino;
+	}
+
+	public String getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+	
+	
+	//@Transient
+	//private boolean removing = false;
+
+  //@Hidden
+	//private boolean deleted;
+
 
 	// MONTOS CALCULADOS
 

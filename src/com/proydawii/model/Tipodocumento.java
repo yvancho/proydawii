@@ -1,17 +1,19 @@
 package com.proydawii.model;
 
+import java.util.*;
+
 import javax.persistence.*;
 
 import com.proydawii.util.*;
 
 @Entity
-public class TipoDocumento extends Identificable {
+public class Tipodocumento extends Identificable {
 
 	@Column(length=20,nullable=false,unique=true)
 	private String descripcion;
 	
-	//@OneToMany(mappedBy="tipodocumento",cascade=CascadeType.ALL)
-	//private Collection<Cliente> clientes = new ArrayList<Cliente>();
+	@OneToMany(mappedBy="tipodocumento",cascade=CascadeType.ALL)
+	private Collection<Cliente> clientes = new ArrayList<Cliente>();
 
 	public String getDescripcion() {
 		return descripcion;
@@ -20,7 +22,8 @@ public class TipoDocumento extends Identificable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-/*
+
+
 	public Collection<Cliente> getClientes() {
 		return clientes;
 	}
@@ -28,6 +31,6 @@ public class TipoDocumento extends Identificable {
 	public void setClientes(Collection<Cliente> clientes) {
 		this.clientes = clientes;
 	}
-	*/
+	
 	
 }
