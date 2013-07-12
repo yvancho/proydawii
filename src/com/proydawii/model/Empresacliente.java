@@ -12,7 +12,7 @@ public class Empresacliente extends Identificable {
 	@Column(length=200)
 	private String razonsocial;
 
-	@Column(length=45)
+	@Column(length=11)
 	private String ruc;
 
 	//bi-directional many-to-one association to Cliente
