@@ -2,6 +2,8 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
+import org.openxava.annotations.*;
+
 import com.proydawii.util.*;
 
 /**
@@ -9,24 +11,15 @@ import com.proydawii.util.*;
  * 
  */
 @Entity
+@Tabs({
+	@Tab(properties="id,descripcion"),
+	@Tab(name="Simple",properties="id,descripcion")
+})
 public class Categoriaproducto extends Identificable {
 
 	@Column(length=50,nullable=false,unique=true)
 	private String descripcion;
-
-	// bi-directional many-to-one association to Productotienda
-	/*
-	@OneToMany(mappedBy = "categoriaproducto")
-	private Collection<Productotienda> productotiendas = new ArrayList<Productotienda>();
-
-	public Collection<Productotienda> getProductotiendas() {
-		return productotiendas;
-	}
-
-	public void setProductotiendas(Collection<Productotienda> productotiendas) {
-		this.productotiendas = productotiendas;
-	}
-*/
+	
 	public String getDescripcion() {
 		return this.descripcion;
 	}

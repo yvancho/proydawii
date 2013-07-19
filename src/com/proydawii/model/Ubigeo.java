@@ -2,9 +2,13 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
+import org.openxava.annotations.*;
+
 import com.proydawii.util.*;
 
 @Entity
+@View(name="Simple",members="nompais,nomdep,nomprov,nomdist;")
+//@Tab(properties="")
 public class Ubigeo extends Identificable{
 	
 	@Column(name="cod_pais", length=3, nullable=false)
@@ -25,11 +29,11 @@ public class Ubigeo extends Identificable{
 	@Column(name="nom_dep", length=20, nullable=false)
 	private String nomdep;
 
-	@Column(name="nom_dist", length=40, nullable=false)
-	private String nomdist;
-
 	@Column(name="nom_prov", length=40, nullable=false)
 	private String nomprov;
+
+	@Column(name="nom_dist", length=40, nullable=false)
+	private String nomdist;
 
 	public String getCodpais() {
 		return codpais;

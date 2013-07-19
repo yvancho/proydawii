@@ -13,7 +13,28 @@ import com.proydawii.util.*;
  */
 @Entity
 @Views({
-		//@View(members="nombre, apellido;tipodocumento,numeroDocumentoIdentidad"),
+		@View(members=
+"General [" +
+		  " loginuser;" +
+		  " loginpassword;" +
+		  " tipocliente;" +
+		 "]; "+
+"Datos Personales [#" +
+				   " nombre; " +
+				   " apellido; " +
+				   " tipodocumento;" +
+				   " numeroDocumentoIdentidad; "+
+				   " genero;" +
+				   " empresacliente; " +
+				   " foto;" +
+				   " Dirección [direccion];" +				   
+				   "]; " +
+"Contacto [" +
+		   " email; " +	   
+		   " telefonocelular; " +
+		   " telefonoprincipal; " +		   
+		  "];"
+),
 		@View(name = "Simple", members = "id, nombre, apellido")
 })
 public class Cliente extends Identificable {
@@ -23,7 +44,7 @@ public class Cliente extends Identificable {
 	private String loginuser;
 
 	@Required
-	@Stereotype("PASSWORD")
+	//@Stereotype("PASSWORD")
 	private String loginpassword;
 
 	@Required
@@ -34,19 +55,17 @@ public class Cliente extends Identificable {
 	@Column(length = 45, unique = false, nullable = false)
 	private String apellido;
 
-	@Required
-	//@NoCreate
-	@NoModify
-	@ManyToOne
+	@Required @NoCreate
+	@NoModify @ManyToOne
 	@DescriptionsList
 	private Tipodocumento tipodocumento;
 
-	@Column(length = 20, nullable = false, unique = true)
+	@Column(length = 8, nullable = false, unique = true)
 	@Required
 	private String numeroDocumentoIdentidad;
 
 	@Required
-	//@NoCreate
+	@NoCreate
 	@NoModify
 	@ManyToOne
 	@DescriptionsList
@@ -58,27 +77,25 @@ public class Cliente extends Identificable {
 	private Direccion direccion;
 
 	@Required
-	@Column(nullable = false, length = 50, unique = true)
 	@Stereotype("EMAIL")
 	private String email;
 
 	@Required
 	@Stereotype("TELEPHONE")
 	@Column(length = 9, nullable = true)
-	@Size(min = 9, message = "Ingrese un nro. de celular válido por favor.")
-	private String telefonoCelular;
+	@Size(min = 9, max = 9, message = "Ingrese un nro. de celular válido por favor.")
+	private String telefonocelular;
 
 	@Stereotype("TELEPHONE")
 	@Column(length = 10, nullable = true)
-	@Size(min = 6, max = 10, message = "Ingrese un nro. de teléfono válido por favor.")
-	private String telefonoPrincipal;
+	private String telefonoprincipal;
 
-	// bi-directional many-to-one association to Empresacliente
+	@NoCreate @NoModify
 	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList(descriptionProperties="razonsocial")
 	private Empresacliente empresacliente;
 
-	//@Required
+	@Required @NoModify @NoCreate
 	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Tipocliente tipocliente;
@@ -110,7 +127,7 @@ public class Cliente extends Identificable {
 		this.empresacliente = empresacliente;
 	}
 
-	public String getTelefonoCelular() {
+	/*public String getTelefonoCelular() {
 		return telefonoCelular;
 	}
 
@@ -124,10 +141,26 @@ public class Cliente extends Identificable {
 
 	public void setTelefonoPrincipal(String telefonoPrincipal) {
 		this.telefonoPrincipal = telefonoPrincipal;
-	}
+	}*/
 
 	public String getNombre() {
 		return nombre;
+	}
+
+	public String getTelefonocelular() {
+		return telefonocelular;
+	}
+
+	public void setTelefonocelular(String telefonocelular) {
+		this.telefonocelular = telefonocelular;
+	}
+
+	public String getTelefonoprincipal() {
+		return telefonoprincipal;
+	}
+
+	public void setTelefonoprincipal(String telefonoprincipal) {
+		this.telefonoprincipal = telefonoprincipal;
 	}
 
 	public void setNombre(String nombre) {

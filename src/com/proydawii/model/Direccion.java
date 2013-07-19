@@ -8,9 +8,8 @@ import org.openxava.annotations.*;
 public class Direccion {
 		
 	@NoFrame
-	@Required
-	@NoCreate
-	@ManyToOne
+	@Required @NoCreate @NoModify @ManyToOne 
+	@ReferenceView("Simple")
 	private Ubigeo ubigeo;
 	
 	@Required
