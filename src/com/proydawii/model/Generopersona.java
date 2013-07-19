@@ -2,10 +2,10 @@ package com.proydawii.model;
 
 import javax.persistence.*;
 
-import org.openxava.model.*;
+import com.proydawii.util.*;
 
 @Entity
-public class Generopersona extends Identifiable {
+public class Generopersona extends Identificable {
 
 	@Column(length=10,nullable=false)
 	private String descripcion;

@@ -55,10 +55,8 @@ public class Cliente extends Identificable {
 	@Column(length = 45, unique = false, nullable = false)
 	private String apellido;
 
-	@Required
-	@NoCreate
-	@NoModify
-	@ManyToOne
+	@Required @NoCreate
+	@NoModify @ManyToOne
 	@DescriptionsList
 	private Tipodocumento tipodocumento;
 
@@ -88,17 +86,16 @@ public class Cliente extends Identificable {
 	@Size(min = 9, max = 9, message = "Ingrese un nro. de celular válido por favor.")
 	private String telefonocelular;
 
-	//@Stereotype("TELEPHONE")
+	@Stereotype("TELEPHONE")
 	@Column(length = 10, nullable = true)
-	@Size(min = 6, max = 7, message = "Ingrese un nro. de teléfono válido por favor.")
 	private String telefonoprincipal;
 
-	// bi-directional many-to-one association to Empresacliente
+	@NoCreate @NoModify
 	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList(descriptionProperties="razonsocial")
 	private Empresacliente empresacliente;
 
-	@Required
+	@Required @NoModify @NoCreate
 	@ManyToOne(fetch = FetchType.LAZY)
 	@DescriptionsList
 	private Tipocliente tipocliente;

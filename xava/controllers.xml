@@ -3,14 +3,34 @@
 <!DOCTYPE controllers SYSTEM "dtds/controllers.dtd">
 
 <controllers>
-	<controller name="Proydawii">
-	<extends controller="Typical"/>
-	<action name="delete"
-			mode="detail"
-			confirm="true"
-			class="com.proydawii.actions.PedidoDeleteAction"
-			image="images/delete.gif"
-			keystroke="Control D">
-	</action>
+
+	<controller name="Pedido">
+		<extends controller="Typical" />
+		<action name="delete" 
+				mode="detail" 
+				confirm="true"
+				class="com.proydawii.actions.PedidoDeleteAction" 
+				image="images/delete.gif"
+				keystroke="Control D">
+		</action>
+		<action name="reportePedidoPorTienda" 
+				mode="detail"
+				class="com.proydawii.actions.ReportePedidoPorTiendaAction" 
+				image="images/photo.gif"
+				keystroke="control T">
+			<use-object name="xava_view" />
+		</action>
 	</controller>
+	
+	<controller name="Cliente">
+		<action name="imprimirReporteCliente" 
+				mode="detail"
+				class="com.proydawii.actions.ReporteTodosClientesAction" 
+				image="images/photo.gif"
+				keystroke="control C">
+			<use-object name="xava_view" />
+		</action>
+	</controller>
+	
+	
 </controllers>

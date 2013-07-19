@@ -8,6 +8,7 @@ import com.proydawii.util.*;
 
 @Entity
 @View(name="Simple",members="nompais,nomdep,nomprov,nomdist;")
+//@Tab(properties="")
 public class Ubigeo extends Identificable{
 	
 	@Column(name="cod_pais", length=3, nullable=false)
