@@ -135,7 +135,6 @@ public class Empresacomercial extends Identificable {
 	public void setWeburl(String weburl) {
 		this.weburl = weburl;
 	}
-
 	
 
 	public Collection<Tienda> getTiendas() {

@@ -23,6 +23,7 @@
 	</controller>
 	
 	<controller name="Cliente">
+	<extends controller="Typical" />
 		<action name="imprimirReporteCliente" 
 				mode="detail"
 				class="com.proydawii.actions.ReporteTodosClientesAction" 

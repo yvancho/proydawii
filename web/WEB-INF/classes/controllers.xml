@@ -13,17 +13,25 @@
 				image="images/delete.gif"
 				keystroke="Control D">
 		</action>
+		<action name="reportePedidoPorTienda" 
+				mode="detail"
+				class="com.proydawii.actions.ReportePedidoPorTiendaAction" 
+				image="images/photo.gif"
+				keystroke="control T">
+			<use-object name="xava_view" />
+		</action>
 	</controller>
 	
 	<controller name="Cliente">
-
+	<extends controller="Typical" />
 		<action name="imprimirReporteCliente" 
 				mode="detail"
 				class="com.proydawii.actions.ReporteTodosClientesAction" 
 				image="images/photo.gif"
-				keystroke="control I">
+				keystroke="control C">
 			<use-object name="xava_view" />
 		</action>
 	</controller>
+	
 	
 </controllers>
