@@ -38,6 +38,8 @@
 	<controller name="Tienda">
 		<extends controller="Typical" />
 	</controller>
-
+	<controller name="Productoempresa">
+		<extends controller="Typical" />
+	</controller>
 
 </controllers>

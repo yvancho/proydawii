@@ -1,8 +1,6 @@
 package com.proydawii.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import org.openxava.annotations.*;
 
 import com.proydawii.util.*;
@@ -42,7 +40,6 @@ public class Tienda extends Identificable {
 	
 	@Stereotype("TELEPHONE")
 	@Column(length=10,nullable=true)
-	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
 	private String nrotelefonofijo;
 
 	@Column(precision=10, scale=2)

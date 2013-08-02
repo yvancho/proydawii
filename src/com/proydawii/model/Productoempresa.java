@@ -6,13 +6,17 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.openxava.annotations.*;
-import org.openxava.model.*;
+import com.proydawii.util.*;
 
 @Entity
-public class Productoempresa extends Identifiable {
+public class Productoempresa extends Identificable {
 
 	@Column(length = 50, nullable = false)
 	private String descripcion;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@DescriptionsList
+	private Categoriaproducto categoria;
 
 	@Stereotype("MONEY")
 	private BigDecimal preciocosto;
@@ -30,11 +34,9 @@ public class Productoempresa extends Identifiable {
 	@Stereotype("MEMO")
 	private String observaciones;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@DescriptionsList
-	private Categoriaproducto categoria;
-
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
+	@NoCreate @NoModify
+	@ReferenceView("Simple")
 	private Empresacomercial empresa;
 
 	@OneToMany(mappedBy = "productoempresa", cascade = CascadeType.ALL)
