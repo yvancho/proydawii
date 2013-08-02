@@ -16,6 +16,21 @@ import java.util.*;
  * 
  */
 @Entity
+@Views({
+	@View(name="Simple",
+		  members="descripcion;" +
+			      "direccion"),
+	@View(members="Datos Principales{" +
+			"descripcion;" +
+			"direccion;" +
+			"nrotelefonofijo;" +
+			"porcimpconsumo;" +
+			"empresacomercial" +
+			"}"+
+			"Productos {productos}"+
+			"Repartidores {repartidores}"+
+			"Pedidos {pedidos}") //en Pedidos puede dividirse en 2 pestañas con factura
+})
 public class Tienda extends Identificable {
 	
 	@Column(length=50,nullable=false,unique=true)
@@ -23,22 +38,20 @@ public class Tienda extends Identificable {
 
 	@Required
 	@NoFrame @Embedded
-	private Direccion direccion;
+	private Direccion direccion;	
 	
-	@Required
 	@Stereotype("TELEPHONE")
 	@Column(length=10,nullable=true)
 	@Size(min=6,max=10,message="Ingrese un nro. de teléfono válido por favor.")
 	private String nrotelefonofijo;
 
+	@Column(precision=10, scale=2)
+	private BigDecimal porcimpconsumo;
+
 	//bi-directional many-to-one association to Productotienda
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
 	private Collection<Productotienda> productos = new ArrayList<Productotienda>();
 
-	@Stereotype("DINERO")
-	@Column(precision=10, scale=2)
-	private BigDecimal porcimpconsumo;
-	
 	//bi-directional many-to-one association to Repartidor
 	@OneToMany(mappedBy="tienda", cascade=CascadeType.ALL)
 	private Collection<Repartidor> repartidores = new ArrayList<Repartidor>();
@@ -49,6 +62,8 @@ public class Tienda extends Identificable {
 
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne(fetch=FetchType.LAZY)
+	@NoCreate @NoModify
+	@ReferenceView("Simple")
 	private Empresacomercial empresacomercial;
 
 	public BigDecimal getPorcimpconsumo() {

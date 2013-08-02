@@ -64,16 +64,11 @@ public class Cliente extends Identificable {
 	@Required
 	private String numeroDocumentoIdentidad;
 
-	@Required
-	@NoCreate
-	@NoModify
-	@ManyToOne
-	@DescriptionsList
+	@Required @NoCreate @NoModify 
+	@ManyToOne @DescriptionsList
 	private Generopersona genero;
 
-	@Required
-	@NoFrame
-	@Embedded
+	@Required @NoFrame @Embedded
 	private Direccion direccion;
 
 	@Required
