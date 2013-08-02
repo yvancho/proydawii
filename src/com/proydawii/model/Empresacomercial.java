@@ -16,6 +16,10 @@ import java.util.*;
  * 
  */
 @Entity
+@Views({@View(name="Simple",
+		members="nombre; " +
+				"nombrecomercial;" +
+				"ruc")})
 public class Empresacomercial extends Identificable {
 	
 	@Column(length=50,nullable=false,unique=true)
@@ -43,10 +47,10 @@ public class Empresacomercial extends Identificable {
 	private byte[] foto;
 
 	//bi-directional many-to-one association to Tienda
+	@NoCreate	
 	@OneToMany(mappedBy="empresacomercial", cascade=CascadeType.ALL)
 	private Collection<Tienda> tiendas = new ArrayList<Tienda>();
 
-	@Stereotype("DINERO")
 	@Column(precision=10, scale=2)
 	private BigDecimal porcimpconsumo;
 	

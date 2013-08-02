@@ -23,7 +23,7 @@
 	</controller>
 	
 	<controller name="Cliente">
-	<extends controller="Typical" />
+		<extends controller="Typical" />
 		<action name="imprimirReporteCliente" 
 				mode="detail"
 				class="com.proydawii.actions.ReporteTodosClientesAction" 
@@ -32,6 +32,14 @@
 			<use-object name="xava_view" />
 		</action>
 	</controller>
-	
-	
+	<controller name="Empresacomercial">
+		<extends controller="Typical"/>
+	</controller>
+	<controller name="Tienda">
+		<extends controller="Typical" />
+	</controller>
+	<controller name="Productoempresa">
+		<extends controller="Typical" />
+	</controller>
+
 </controllers>

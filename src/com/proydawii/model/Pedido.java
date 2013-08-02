@@ -69,7 +69,8 @@ public class Pedido {
 	private BigDecimal porcentajeigv;
 
 	@Hidden
-	private byte ultimopedido;
+	//private byte ultimopedido;
+	private int ultimopedido;
 	
 	@Column(length=50)
 	private String direcciondestino;
@@ -80,7 +81,8 @@ public class Pedido {
 	/*
 	 * Por defecto 0 = activo / 1 = anulado
 	 */
-	@Column(nullable=false, length=1)
+	@Hidden
+	@Column(nullable=true, length=1)
 	private String deleted;
 
 	@Stereotype("TEXTO_GRANDE")
@@ -174,11 +176,19 @@ public class Pedido {
 		this.porcentajeigv = porcentajeigv;
 	}
 
-	public byte getUltimopedido() {
+	/*public byte getUltimopedido() {
 		return ultimopedido;
 	}
 
 	public void setUltimopedido(byte ultimopedido) {
+		this.ultimopedido = ultimopedido;
+	}*/
+
+	public int getUltimopedido() {
+		return ultimopedido;
+	}
+
+	public void setUltimopedido(int ultimopedido) {
 		this.ultimopedido = ultimopedido;
 	}
 
