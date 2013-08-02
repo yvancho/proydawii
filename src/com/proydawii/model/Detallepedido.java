@@ -14,8 +14,6 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-// @View(members = "productotienda; cantidad, preciounitario, importe; pedido")
-@View(members = "productotienda; cantidad; pedido")
 public class Detallepedido extends Identificable {
 
 	// bi-directional many-to-one association to Pedido

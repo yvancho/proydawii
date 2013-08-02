@@ -5,7 +5,7 @@ import javax.persistence.*;
 //import org.hibernate.validator.*;
 import org.openxava.annotations.*;
 
-import com.proydawii.calculators.*;
+import com.proydawii.util.*;
 
 import java.math.*;
 import java.util.*;
@@ -15,20 +15,28 @@ import java.util.*;
  * 
  */
 @Entity
-/*@View(members = "id," + "fechahoraregistro,fechahorasalida,fechahoraentrada,"
-		+ "estadoregistropedido," + "tienda; " + 
-		"data {cliente;detallepedidos;observaciones}")
-		"montos[" + "porcentajeigv, " + "montoBase,"
-		+ "igv," + "montoTotal" + "];"+ */
-		
-public class Pedido {
+@Views({
+@View(members = 
+	"Datos Generales {# " +
+					  "fechahoraregistro, tienda;" +
+					  "fechahorasalida, estadopedido;" +
+					  "fechahoraentrada;" +
+					  "cliente;" +
+					  "Ubigeo [direcciondestino;" +
+					  		  "referenciadirdestino];"+
+					  "porcentajeigv, monto;" +
+					  "observaciones"+
+					 "};" +
+	"Detalle del Pedido {detallepedidos};" +
+	"Facturación {facturaciones}")
+})
+public class Pedido extends Identificable{
 
-	@Id
+	/*@Id
 	@DefaultValueCalculator(value = SiguienteIdPorYearCalculator.class)
 	@ReadOnly
-	private int id;
+	private int id;*/
 
-	@Hidden
 	@Stereotype("DATETIME")
 	private Date fechahoraregistro;
 
@@ -40,11 +48,13 @@ public class Pedido {
 
 	// bi-directional many-to-one association to Tienda
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NoCreate @NoModify
 	@DescriptionsList
 	private Tienda tienda;
 
 	// bi-directional many-to-one association to Estadoregistropedido
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NoCreate @NoModify
 	@DescriptionsList
 	private Estadopedido estadopedido;
 
@@ -65,7 +75,7 @@ public class Pedido {
 	@Column(precision=10, scale=2)
 	private BigDecimal monto;
 	
-	@Column(precision=10)
+	@Column(precision=10, scale=2)
 	private BigDecimal porcentajeigv;
 
 	@Hidden
@@ -88,13 +98,13 @@ public class Pedido {
 	@Stereotype("TEXTO_GRANDE")
 	private String observaciones;
 
-	public int getId() {
+	/*public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}
+	}*/
 
 	public Date getFechahoraregistro() {
 		return fechahoraregistro;

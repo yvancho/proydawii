@@ -9,6 +9,15 @@ import org.openxava.annotations.*;
 import com.proydawii.util.*;
 
 @Entity
+@Views({
+	@View(name="Simple",
+		  members="descripcion;" +
+		  		  "categoria;" +
+		  		  "preciocosto;" +
+		  		  "precioventa;" +
+		  		  "foto;" +
+		  		  "empresa")
+})
 public class Productoempresa extends Identificable {
 
 	@Column(length = 50, nullable = false)

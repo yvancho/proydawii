@@ -18,8 +18,8 @@ public class SiguienteIdPorYearCalculator implements ICalculator {
 
 	public Object calculate() throws Exception {
 		Query query = XPersistence.getManager().createQuery(
-				"select max(p.id) from Pedido "
-						+ " p where year(p.fechahoraentrada) = :year");
+				"select max(p.id) from Pedido p"
+						+ " where year(p.fechahoraentrada) = :year");
 		query.setParameter("year", getYear());
 		Integer ultimoId = (Integer) query.getSingleResult();
 		return ultimoId == null ? 1 : ultimoId + 1;
