@@ -6,11 +6,13 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
-import com.proydawii.util.*;
-
 @Entity
-public class Detallefacturacion extends Identificable{
+public class Detallefacturacion{
 
+	@Id
+	@Column(name = "detalleorden_id")
+	private int detalleordenId;
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	private Detallepedido detallepedido;
 
@@ -131,6 +133,14 @@ public class Detallefacturacion extends Identificable{
 
 	public void setPorcentajeimpuestoconsumo(BigDecimal porcentajeimpuestoconsumo) {
 		this.porcentajeimpuestoconsumo = porcentajeimpuestoconsumo;
+	}
+
+	public int getDetalleordenId() {
+		return detalleordenId;
+	}
+
+	public void setDetalleordenId(int detalleordenId) {
+		this.detalleordenId = detalleordenId;
 	}
 
 }
