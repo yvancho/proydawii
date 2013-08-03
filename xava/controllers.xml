@@ -46,5 +46,10 @@
 	<controller name="Productotienda">
 		<extends controller="Typical" />
 	</controller>
-
+	<controller name="Facturacion">
+		<extends controller="Typical" />
+	</controller>
+	<controller name="Detallefacturacion">
+		<extends controller="Typical" />
+	</controller>
 </controllers>

@@ -6,12 +6,10 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 
-@Entity
-public class Detallefacturacion {
+import com.proydawii.util.*;
 
-	@Id
-	@Column(name = "detalleorden_id")
-	private int detalleordenId;
+@Entity
+public class Detallefacturacion extends Identificable{
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private Detallepedido detallepedido;
@@ -45,15 +43,7 @@ public class Detallefacturacion {
 	private BigDecimal porcentajeigv;
 
 	@Column(precision = 6, scale = 2)
-	private BigDecimal porcentajeimpuestoconsumo;
-
-	public int getDetalleordenId() {
-		return detalleordenId;
-	}
-
-	public void setDetalleordenId(int detalleordenId) {
-		this.detalleordenId = detalleordenId;
-	}
+	private BigDecimal porcentajeimpuestoconsumo;	
 
 	public Detallepedido getDetallepedido() {
 		return detallepedido;

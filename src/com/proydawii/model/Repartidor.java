@@ -14,6 +14,10 @@ import com.proydawii.util.*;
  * 
  */
 @Entity
+@Views({
+	@View(name="Simple",
+		  members="id,nombre,apellido,loginuser")
+})
 public class Repartidor extends Identificable {
 
 	@Required

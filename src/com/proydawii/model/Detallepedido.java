@@ -13,6 +13,10 @@ import java.math.BigDecimal;
  * The persistent class for the detallepedido database table.
  * 
  */
+
+//@Views({
+	//@View(members="")
+//})
 @Entity
 public class Detallepedido extends Identificable {
 
@@ -22,8 +26,9 @@ public class Detallepedido extends Identificable {
 	@ReferenceView("Simple")
 	private Pedido pedido;
 
-	@ManyToOne
-	// @DescriptionsList
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@NoCreate @NoModify
+	@ReferenceView("Simple")
 	private Repartidor repartidor;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -46,9 +51,10 @@ public class Detallepedido extends Identificable {
 	@Column(nullable = false, updatable = true)
 	private int cantidad;
 	
+	/*
 	@Stereotype("DINERO")
 	private BigDecimal ganancia;
-
+*/
 	public Pedido getPedido() {
 		return pedido;
 	}
@@ -100,6 +106,7 @@ public class Detallepedido extends Identificable {
 		this.preciocosto = preciocosto;
 	}
 
+	/*
 	public BigDecimal getGanancia() {
 		return ganancia;
 	}
@@ -107,7 +114,8 @@ public class Detallepedido extends Identificable {
 	public void setGanancia(BigDecimal ganancia) {
 		this.ganancia = ganancia;
 	}
-
+*/
+	
 	// PROPIEDADES CALCULADAS
 
 	//IMPORTE DE LA TIENDA
