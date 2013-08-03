@@ -7,6 +7,11 @@ import org.openxava.annotations.*;
 import com.proydawii.util.*;
 
 @Entity
+@Views({
+	@View(name="Simple",
+		  members=" id," +
+		  		  " productoempresa")
+})
 public class Productotienda extends Identificable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)

@@ -17,32 +17,36 @@ import java.math.BigDecimal;
 public class Detallepedido extends Identificable {
 
 	// bi-directional many-to-one association to Pedido
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@NoCreate @NoModify
+	@ReferenceView("Simple")
 	private Pedido pedido;
-
-	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-	// @ReferenceView("Simple")
-	@NoFrame
-	private Productotienda productotienda;
-
-	// @DefaultValueCalculator(value = PrecioPorUnidad.class,
-	// properties = @PropertyValue(name = "productoId", from =
-	// "productotienda.id"))
-	@Stereotype("DINERO")
-	private BigDecimal preciounitario;
 
 	@ManyToOne
 	// @DescriptionsList
 	private Repartidor repartidor;
 
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@NoCreate @NoModify
+	@ReferenceView("Simple")
+	private Productotienda productotienda;
+
+	@DefaultValueCalculator(
+			value = PrecioPorUnidad.class,
+			properties = 
+				@PropertyValue(name = "productoId", 
+							   from = "productotienda.id"))
+	@Stereotype("DINERO")
+	private BigDecimal preciounitario;
+
+	@Stereotype("DINERO")
+	private BigDecimal preciocosto;
+
 	@Required
 	@Column(nullable = false, updatable = true)
 	private int cantidad;
-
-	@Column(precision = 10, scale = 2)
-	private BigDecimal preciocosto;
-
-	@Column(precision = 10, scale = 2)
+	
+	@Stereotype("DINERO")
 	private BigDecimal ganancia;
 
 	public Pedido getPedido() {
@@ -106,22 +110,39 @@ public class Detallepedido extends Identificable {
 
 	// PROPIEDADES CALCULADAS
 
-	/*
-	 * @Stereotype("MONEY")
-	 * 
-	 * @Depends("productotienda.id, cantidad") public BigDecimal getImporte() {
-	 * return new BigDecimal(cantidad).multiply(productotienda.getPrecio()); }
-	 * 
-	 * // METODOS DE RETRO-LLAMADA
-	 * 
-	 * @PrePersist private void onPersist() {
-	 * getPedido().getDetallepedidos().add(this);
-	 * getPedido().recalculateMonto(); }
-	 * 
-	 * @PreUpdate private void onUpdate() { getPedido().recalculateMonto(); }
-	 * 
-	 * @PreRemove private void onRemove() { if (getPedido().isRemoving()) {
-	 * return; } getPedido().getDetallepedidos().remove(this);
-	 * getPedido().recalculateMonto(); }
-	 */
+	@Stereotype("MONEY")
+	@Depends("productotienda.id, cantidad")
+	public BigDecimal getImporteTienda() {
+		return new BigDecimal(cantidad).multiply(productotienda
+				.getProductoempresa().getPrecioventa());
+	}
+	
+	@Stereotype("MONEY")
+	@Depends("productotienda.id, cantidad,preciocosto")
+	public BigDecimal getImporteReal() {
+		return new BigDecimal(cantidad).multiply(this.preciocosto);
+	}
+	
+	 // METODOS DE RETRO-LLAMADA
+	  
+	 /* @PrePersist 
+	  private void onPersist() {
+		  getPedido().getDetallepedidos().add(this);
+		  getPedido().recalculateMonto(); 
+	  }
+	  
+	  @PreUpdate 
+	  private void onUpdate() { 
+		  getPedido().recalculateMonto(); 
+	  }
+	  
+	 @PreRemove 
+	 private void onRemove() { 
+		 if (getPedido().isRemoving()) {
+			 return; 
+		 } 
+		 getPedido().getDetallepedidos().remove(this);
+		 getPedido().recalculateMonto(); 
+	  }*/
+	 
 }

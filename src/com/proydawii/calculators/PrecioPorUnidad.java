@@ -6,10 +6,7 @@ import com.proydawii.model.*;
 import org.openxava.jpa.*;
 
 public class PrecioPorUnidad implements ICalculator {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private int productoId;
@@ -17,7 +14,7 @@ public class PrecioPorUnidad implements ICalculator {
 	public Object calculate() throws Exception {
 		Productotienda producto = XPersistence.getManager().find(
 				Productotienda.class, productoId);
-		return 0.0; //producto.getPrecio();
+		return producto.getProductoempresa().getPrecioventa();
 	}
 
 	public int getProductoId() {

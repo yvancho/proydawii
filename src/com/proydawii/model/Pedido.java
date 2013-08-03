@@ -18,9 +18,9 @@ import java.util.*;
 @Views({
 @View(members = 
 	"Datos Generales {# " +
-					  "fechahoraregistro, tienda;" +
-					  "fechahorasalida, estadopedido;" +
-					  "fechahoraentrada;" +
+					  "fechahoraregistro; " +
+					  "tienda;" +
+					  "estadopedido;" +					 
 					  "cliente;" +
 					  "Ubigeo [direcciondestino;" +
 					  		  "referenciadirdestino];"+
@@ -28,7 +28,10 @@ import java.util.*;
 					  "observaciones"+
 					 "};" +
 	"Detalle del Pedido {detallepedidos};" +
-	"Facturación {facturaciones}")
+	"Facturación {facturaciones}"),
+@View(name="Simple", 
+	  members="id, fechahoraregistro;" +
+			  "cliente;")
 })
 public class Pedido extends Identificable{
 
@@ -40,11 +43,11 @@ public class Pedido extends Identificable{
 	@Stereotype("DATETIME")
 	private Date fechahoraregistro;
 
-	@Stereotype("DATETIME")
+	/*@Stereotype("DATETIME")
 	private Date fechahorasalida;
 	
 	@Stereotype("DATETIME")
-	private Date fechahoraentrada;
+	private Date fechahoraentrada;*/
 
 	// bi-directional many-to-one association to Tienda
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -59,13 +62,12 @@ public class Pedido extends Identificable{
 	private Estadopedido estadopedido;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@NoCreate @NoModify
 	@ReferenceView("Simple")
 	private Cliente cliente;
 
 	// bi-directional many-to-one association to Detallepedido
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	//@ListProperties("productotienda.id," + "productotienda.descripcion," + "cantidad,"
-		//	+ "productotienda.precio," + "importe, productotienda.tienda.descripcion")
 	private Collection<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
@@ -113,22 +115,7 @@ public class Pedido extends Identificable{
 	public void setFechahoraregistro(Date fechahoraregistro) {
 		this.fechahoraregistro = fechahoraregistro;
 	}
-
-	public Date getFechahorasalida() {
-		return fechahorasalida;
-	}
-
-	public void setFechahorasalida(Date fechahorasalida) {
-		this.fechahorasalida = fechahorasalida;
-	}
-
-	public Date getFechahoraentrada() {
-		return fechahoraentrada;
-	}
-
-	public void setFechahoraentrada(Date fechahoraentrada) {
-		this.fechahoraentrada = fechahoraentrada;
-	}
+	
 
 	public Tienda getTienda() {
 		return tienda;
@@ -171,7 +158,11 @@ public class Pedido extends Identificable{
 	}
 
 	public BigDecimal getMonto() {
-		return monto;
+		BigDecimal resultado = new BigDecimal("0.00");
+		for (Detallepedido detalle : getDetallepedidos()) {
+			resultado = resultado.add(detalle.getImporte());
+		}
+		return resultado;
 	}
 
 	public void setMonto(BigDecimal monto) {
