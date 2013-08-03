@@ -110,6 +110,7 @@ public class Detallepedido extends Identificable {
 
 	// PROPIEDADES CALCULADAS
 
+	//IMPORTE DE LA TIENDA
 	@Stereotype("MONEY")
 	@Depends("productotienda.id, cantidad")
 	public BigDecimal getImporteTienda() {
@@ -117,10 +118,18 @@ public class Detallepedido extends Identificable {
 				.getProductoempresa().getPrecioventa());
 	}
 	
+	//IMPORTE CON GANANCIA
 	@Stereotype("MONEY")
 	@Depends("productotienda.id, cantidad,preciocosto")
 	public BigDecimal getImporteReal() {
 		return new BigDecimal(cantidad).multiply(this.preciocosto);
+	}
+	
+	//GANANCIA
+	@Stereotype("MONEY")
+	@Depends("importeTienda,importeReal")
+	public BigDecimal getGananciaReal() {
+		return getImporteReal().subtract(this.getImporteTienda());
 	}
 	
 	 // METODOS DE RETRO-LLAMADA

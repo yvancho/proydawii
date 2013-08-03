@@ -160,7 +160,7 @@ public class Pedido extends Identificable{
 	public BigDecimal getMonto() {
 		BigDecimal resultado = new BigDecimal("0.00");
 		for (Detallepedido detalle : getDetallepedidos()) {
-			resultado = resultado.add(detalle.getImporte());
+			resultado = resultado.add(detalle.getImporteReal());
 		}
 		return resultado;
 	}
